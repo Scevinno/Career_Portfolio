@@ -28,6 +28,9 @@
 
 html { scroll-behavior: smooth; }
 
+/* keep anchor targets clear of the sticky nav */
+[id] { scroll-margin-top: 90px; }
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -39,6 +42,13 @@ body {
 }
 
 ::selection { background: var(--accent); color: #04211d; }
+
+/* dark scrollbars (page + code blocks) */
+* { scrollbar-color: var(--line-strong) var(--bg-inset); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-inset); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { color: #5eead4; }
@@ -232,6 +242,8 @@ img { max-width: 100%; display: block; }
 
 .portrait-frame img {
   position: relative;
+  width: 100%;
+  height: auto;
   border-radius: var(--radius);
   border: 1px solid var(--line-strong);
   filter: grayscale(1) contrast(1.05);
