@@ -23,6 +23,8 @@ linkedin: "https://www.linkedin.com/in/nikolas-scevko"
 github: "https://github.com/Scevinno"
 email: "nikolas.scevko@gmail.com"
 
+permalink: /projects/:title/
+
 markdown: kramdown
 highlighter: rouge
 kramdown:
