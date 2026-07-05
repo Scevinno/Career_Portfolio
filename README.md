@@ -25,6 +25,16 @@ metrics:                              # up to ~3 headline numbers
 
 3. Write the body in plain markdown — code blocks, tables and blockquote callouts are styled automatically.
 
+## Toolkit section (measured library mix)
+
+The "Python library mix" bars on the home page are computed, not guessed. `scripts/measure_libraries.py` attributes every executable line of the published projects' source code (blanks and comments excluded) to the library it calls, via import aliases and one-hop variable provenance:
+
+```
+python scripts/measure_libraries.py path/to/Model_Reg.py path/to/Model_For.py
+```
+
+When a new project is published, re-run it over all published projects' source files and update the percentages in `_data/toolkit.yml` (also bump `measured_lines` and `updated`).
+
 ## Stack
 
 - Jekyll (GitHub Pages native build), kramdown + rouge

@@ -28,6 +28,39 @@ body_class: page-home
     </div>
   </section>
 
+  <!-- ============ TOOLKIT ============ -->
+  <section class="toolkit" id="toolkit">
+    <div class="toolkit-inner">
+      <div class="section-head reveal">
+        <p class="kicker">technical toolkit</p>
+        <h2 class="section-title">What I work with</h2>
+      </div>
+
+      <div class="toolkit-grid">
+        <div class="languages reveal">
+          {% for lang in site.data.toolkit.languages %}
+          <div class="lang-tile">
+            <span class="lang-name">{{ lang.name }}</span>
+            <span class="lang-note">{{ lang.note }}</span>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="lib-mix reveal">
+          <h3 class="lib-mix-title">Python library mix</h3>
+          {% for lib in site.data.toolkit.library_mix.libraries %}
+          <div class="lib-row">
+            <span class="lib-name">{{ lib.name }}</span>
+            <span class="lib-bar"><span class="lib-fill" style="--pct: {{ lib.pct }}%"></span></span>
+            <span class="lib-pct">{{ lib.pct }}%</span>
+          </div>
+          {% endfor %}
+          <p class="lib-note">Measured, not self-assessed — the share of executable lines calling each library across the {{ site.data.toolkit.library_mix.source }} (blanks and comments excluded). Recomputed as projects are added.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ PROJECTS ============ -->
   <section class="projects" id="projects">
     <div class="section-head reveal">

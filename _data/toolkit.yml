@@ -1,0 +1,29 @@
+# Technical toolkit shown on the home page.
+# Library percentages are MEASURED, not self-assessed: scripts/measure_libraries.py
+# runs over the source code of the published portfolio projects and attributes every
+# executable line (blanks and comments excluded) to the library it calls.
+# Recompute and update here whenever a new project is published.
+
+languages:
+  - name: Python
+    note: modelling & pipelines
+  - name: SQL
+    note: querying & transformation
+  - name: R
+    note: statistical analysis
+  - name: DAX
+    note: Power BI measures
+
+library_mix:
+  measured_lines: 165
+  source: "source code of the published portfolio projects"
+  updated: 2026-07-05
+  libraries:
+    - name: pandas
+      pct: 46
+    - name: scikit-learn
+      pct: 32
+    - name: Matplotlib
+      pct: 11
+    - name: core Python
+      pct: 11
