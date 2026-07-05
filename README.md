@@ -1,8 +1,8 @@
-# Portfolio Project
+# Career Portfolio
 
 Data portfolio of **Nikolas Scevko** — a hand-built dark "data-editorial" theme (no remote theme, no framework).
 
-Live at: https://scevinno.github.io/Portfolio_Project
+Live at: https://scevinno.github.io/Career_Portfolio
 
 ## Adding a project
 
