@@ -107,14 +107,26 @@ I'm predicting the binary `signup_flag` — whether a customer joined the delive
 Every model starts from the same prepared table. I load the campaign data, drop the identifier, shuffle with a fixed seed, and check the class balance — that ~31/69 split drives every metric decision later. A handful of rows have gaps; with ~850 customers to work with, dropping them outright is cleaner than imputing.
 
 ```python
-import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+from sklearn.feature_selection import RFECV
+from sklearn.inspection import permutation_importance
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import pickle
 
 model_data = pd.read_pickle(open("data/abc_classification_modelling.p", "rb"))
 model_data.drop("customer_id", axis=1, inplace=True)
 
 model_data = shuffle(model_data, random_state=42)
-model_data["signup_flag"].value_counts(normalize=True)   # ~0.69 / ~0.31
+model_data["signup_flag"].value_counts(normalize=True)
 
 model_data.isna().sum()
 model_data.dropna(how="any", inplace=True)
@@ -383,8 +395,6 @@ x_test = pd.DataFrame(scale_norm.transform(x_test), columns=x_test.columns)
 KNN has no native way to rank features, so I borrow a Random Forest as the selector inside `RFECV`. It keeps **6 of the 8** inputs, dropping `credit_score` and `total_items`.
 
 ```python
-from sklearn.ensemble import RandomForestClassifier
-
 classifier = RandomForestClassifier(random_state=42)
 feature_selector = RFECV(classifier)
 fit = feature_selector.fit(x_train, y_train)
