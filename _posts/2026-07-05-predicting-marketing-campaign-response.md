@@ -10,8 +10,8 @@ metrics:
     label: "F1 on unseen customers"
   - value: "~850"
     label: "customers, one campaign"
-  - value: "47/52"
-    label: "test-set signups caught"
+  - value: "2.9×"
+    label: "conversion lift"
 ---
 
 A grocery retailer mailed its customers an invitation to join a **delivery club** — and most of the letters were wasted on people who were never going to sign up. I trained three classification models on the results of that campaign to predict **who will actually join**, so the next round of mail goes only to customers with a real chance of converting.
@@ -64,6 +64,8 @@ Mail campaigns cost money per letter, and the retailer's delivery club campaign 
 **Actions**
 
 I framed it as a supervised **classification** task — predict the binary `signup_flag` from eight customer attributes (shopping behaviour, distance from store, credit score, gender). I built **three** models on the same campaign data so the comparison would be fair: a **Logistic Regression** (interpretable baseline, with a tuned decision threshold), a **Random Forest** (non-linear benchmark), and a **K-Nearest Neighbours** classifier (distance-based, with feature scaling). Because signups are the minority class, every model is judged primarily on **F1-score** rather than accuracy.
+
+The payoff in campaign terms: mailing only the customers the best model flags would take conversion from roughly **3 in 10** letters to about **9 in 10** — a **~2.9× lift** — while still reaching ~90% of everyone who was ever going to join.
 
 **Growth & Next Steps**
 

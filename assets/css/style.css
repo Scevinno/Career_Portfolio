@@ -444,6 +444,12 @@ img { max-width: 100%; display: block; }
   width: fit-content;
 }
 
+/* on desktop the three metrics always share one row */
+@media (min-width: 901px) {
+  .project-metrics { flex-wrap: nowrap; }
+  .metric dt { white-space: nowrap; }
+}
+
 .metric {
   padding: 0.75rem 1.3rem;
   border-right: 1px solid var(--line);
