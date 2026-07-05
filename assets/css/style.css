@@ -286,13 +286,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: -0.02em;
 }
 
-.section-count {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--text-faint);
-  margin-left: auto;
-}
-
 .project-card { margin-bottom: 1.6rem; }
 
 .project-link {
