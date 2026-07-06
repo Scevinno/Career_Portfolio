@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Clustering the S&amp;P 500 by market behaviour">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#252a36"/>
+      <stop offset="1" stop-color="#121419"/>
+    </linearGradient>
+    <radialGradient id="glowT" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#17A589" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#17A589" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2E86C1" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#2E86C1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowM" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#1ec8a5" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#1ec8a5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- faint chart grid -->
+  <g stroke="#3E4250" stroke-width="1" opacity="0.26">
+    <line x1="0" y1="130" x2="800" y2="130"/>
+    <line x1="0" y1="260" x2="800" y2="260"/>
+    <line x1="0" y1="390" x2="800" y2="390"/>
+    <line x1="0" y1="520" x2="800" y2="520"/>
+    <line x1="160" y1="0" x2="160" y2="600"/>
+    <line x1="320" y1="0" x2="320" y2="600"/>
+    <line x1="480" y1="0" x2="480" y2="600"/>
+    <line x1="640" y1="0" x2="640" y2="600"/>
+  </g>
+
+  <!-- faint index line running behind the clusters -->
+  <path d="M 0 470 L 90 440 L 170 452 L 260 396 L 340 410 L 430 340 L 520 356 L 610 282 L 700 296 L 800 230"
+        fill="none" stroke="#3E4250" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- cluster glows -->
+  <circle cx="215" cy="415" r="150" fill="url(#glowT)"/>
+  <circle cx="565" cy="205" r="160" fill="url(#glowB)"/>
+  <circle cx="430" cy="455" r="120" fill="url(#glowM)"/>
+
+  <!-- cluster 1: teal, low-left (defensive) -->
+  <g fill="#17A589">
+    <circle cx="185" cy="400" r="9"/>
+    <circle cx="228" cy="378" r="7"/>
+    <circle cx="255" cy="428" r="8"/>
+    <circle cx="205" cy="452" r="6"/>
+    <circle cx="165" cy="437" r="7"/>
+    <circle cx="242" cy="405" r="5"/>
+    <circle cx="196" cy="426" r="5"/>
+    <circle cx="271" cy="392" r="6"/>
+  </g>
+  <ellipse cx="218" cy="414" rx="92" ry="66" fill="none" stroke="#17A589" stroke-width="2"
+           stroke-dasharray="7 7" opacity="0.55"/>
+
+  <!-- cluster 2: blue, upper-right (growth) -->
+  <g fill="#2E86C1">
+    <circle cx="530" cy="185" r="8"/>
+    <circle cx="575" cy="160" r="9"/>
+    <circle cx="615" cy="205" r="7"/>
+    <circle cx="552" cy="232" r="6"/>
+    <circle cx="598" cy="248" r="7"/>
+    <circle cx="637" cy="172" r="5"/>
+    <circle cx="510" cy="222" r="5"/>
+    <circle cx="580" cy="200" r="5"/>
+  </g>
+  <ellipse cx="572" cy="203" rx="98" ry="72" fill="none" stroke="#2E86C1" stroke-width="2"
+           stroke-dasharray="7 7" opacity="0.55"/>
+
+  <!-- cluster 3: mixed teal-light, centre (the in-betweeners) -->
+  <g fill="#1ec8a5" opacity="0.9">
+    <circle cx="405" cy="440" r="7"/>
+    <circle cx="445" cy="418" r="6"/>
+    <circle cx="470" cy="468" r="7"/>
+    <circle cx="418" cy="483" r="5"/>
+    <circle cx="452" cy="448" r="4"/>
+  </g>
+  <ellipse cx="438" cy="452" rx="70" ry="52" fill="none" stroke="#1ec8a5" stroke-width="2"
+           stroke-dasharray="7 7" opacity="0.45"/>
+
+  <!-- unclustered field: quiet grey points -->
+  <g fill="#9aa4b0" opacity="0.5">
+    <circle cx="352" cy="300" r="4"/>
+    <circle cx="392" cy="262" r="3.5"/>
+    <circle cx="322" cy="352" r="3.5"/>
+    <circle cx="472" cy="322" r="4"/>
+    <circle cx="302" cy="240" r="3"/>
+    <circle cx="672" cy="352" r="3.5"/>
+    <circle cx="702" cy="432" r="4"/>
+    <circle cx="122" cy="292" r="3.5"/>
+    <circle cx="92" cy="522" r="3"/>
+    <circle cx="542" cy="512" r="3.5"/>
+    <circle cx="632" cy="482" r="3"/>
+    <circle cx="252" cy="532" r="3.5"/>
+  </g>
+
+  <!-- the outlier: high and alone, ringed -->
+  <circle cx="712" cy="92" r="9" fill="#eef2f7"/>
+  <circle cx="712" cy="92" r="20" fill="none" stroke="#eef2f7" stroke-width="2" stroke-dasharray="4 5" opacity="0.7"/>
+</svg>
