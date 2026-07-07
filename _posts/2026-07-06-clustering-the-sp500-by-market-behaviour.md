@@ -36,11 +36,11 @@ Every S&P 500 company carries a sector label — Utilities, Information Technolo
 
 **Context**
 
-Sector labels group companies by what they *sell*. This project is an exploration of what happens when you group them by how their stocks actually *behaved* — how they moved, earned and priced through 2025 — and then lay those groups over the sector map. There is no hypothesis to prove here: the aim is to surface trends and groups — to see whether stocks tend to trend consistently within their sector, where they clearly don't, and what interesting structure falls out along the way. That open-ended pattern-finding is exactly what unsupervised clustering is for.
+Sector labels group companies by what they *sell*. This project is an exploration of what happens when you group them by how their stocks actually *behaved* — how they moved, earned and priced through 2025 — and then lay those groups over the sector map. The aim is to surface trends and groups — to see whether stocks tend to trend consistently within their sector, where they don't, and what interesting structure falls out along the way. The open-ended pattern exploration is exactly why unsupervised ML is used.
 
 **Actions**
 
-There was no ready-made table for this, so I built one: for every current S&P 500 constituent I assembled ten 2025-anchored metrics — price behaviour computed from a full year of daily prices, fundamentals from the four quarterly statements ending within 2025 — into one row per company. On that table I ran an unsupervised **K-means** pipeline — min-max scaling, an elbow (WCSS) search for the number of clusters, a seeded 50-restart fit so the groups are stable and reproducible — then profiled each cluster in real units and mapped its sector make-up to see what patterns had emerged.
+There was no ready-made table for this, so I built one: for every current S&P 500 constituent I assembled ten 2025-anchored metrics — price behaviour computed from a full year of daily prices, fundamentals from the four quarterly statements ending within 2025 — into one row per company. On that table I ran an unsupervised **K-means** pipeline — min-max scaling, WCSS search for the number of clusters, a reproducible seed — then profiled each cluster in real units and mapped its sector make-up to see what patterns had emerged.
 
 **Growth & Next Steps**
 
@@ -223,8 +223,8 @@ For a portfolio builder the practical takeaway is direct: holding five different
 
 Concrete improvements queued for the next iteration:
 
-- **Rethink the min-max scaling.** It puts every metric on a 0–1 range, but it is defenceless against extremes. A P/E above 6,000 compresses every ordinary valuation into a sliver of the scale, and market cap's enormous range does the reverse — the nine biggest companies sit so far along that one axis that they claim a cluster of their own, driven as much by sheer size as by shared behaviour. Log-transforming the heavy-tailed columns, or switching to a robust scaler, would let both metrics contribute a gradient instead of an outlier flag.
-- **Reduce the number of variables.** Ten metrics all get an equal vote, but some of them overlap — volatility and beta tell related stories, as do the two growth columns. A leaner, less-correlated feature set would sharpen what each cluster actually means and make the groups easier to describe.
+- **Rethink the min-max scaling.** It puts every metric on a 0–1 range, but it is defenceless against extremes. A P/E and market cap's enormous range are two to mention. Log-transforming the heavy-tailed columns, or switching to a robust scaler, would let both metrics contribute a gradient instead of an outlier flag.
+- **Reduce the number of variables.** Ten metrics all get an equal vote, but some of them overlap — volatility and beta tell related stories, as do the two growth columns. A leaner, less-correlated feature set could tell a much simpler and cleaner story.
 - **Compare clusters to sector averages.** Each cluster's profile can be set against the average metrics of each sector — showing which companies sit far from their own sector's norm. That turns the clustering into a practical screen for investigating outliers within each individual sector, one sector at a time.
 
 ---
