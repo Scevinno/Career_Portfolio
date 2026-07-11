@@ -4,8 +4,6 @@ Data portfolio of **Nikolas Scevko** — data-science case studies presented in 
 
 **▶ View it live: https://scevinno.github.io/Career_Portfolio**
 
-Also on GitHub: [Purchase Prediction Web App](https://github.com/Scevinno/DSI-Streamlit) — an interactive Streamlit model, live at [dsi-webbapp.streamlit.app](https://dsi-webbapp.streamlit.app/).
-
 ## Adding a project
 
 1. Drop a markdown file in `_posts/` named `YYYY-MM-DD-slug.md`.
