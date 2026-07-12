@@ -22,8 +22,9 @@ I built a model that predicts a London property's **fair sale price** from its s
 
 - [00. Project Overview](#00-project-overview)
 - [01. Results](#01-results)
-- [02. Data Overview](#02-data-overview)
-- [03. Linear Regression](#03-linear-regression)
+- [02. Model Overview](#02-model-overview)
+- [03. Data Overview](#03-data-overview)
+- [04. Linear Regression](#04-linear-regression)
   - [Data Import](#lin-data-import)
   - [Dealing with Missing Values](#lin-missing)
   - [Dealing with Outliers](#lin-outliers)
@@ -32,7 +33,7 @@ I built a model that predicts a London property's **fair sale price** from its s
   - [Feature Selection](#lin-feature-selection)
   - [Model Training](#lin-training)
   - [Model Assessment](#lin-assessment)
-- [04. Random Forest](#04-random-forest)
+- [05. Random Forest](#05-random-forest)
   - [Data Import](#rf-data-import)
   - [Dealing with Missing Values](#rf-missing)
   - [Dealing with Outliers](#rf-outliers)
@@ -40,8 +41,8 @@ I built a model that predicts a London property's **fair sale price** from its s
   - [Target Encoding](#rf-encoding)
   - [Model Training](#rf-training)
   - [Model Assessment](#rf-assessment)
-- [05. Detecting Undervalued Homes](#05-detecting-undervalued-homes)
-- [06. Growth & Next Steps](#06-growth--next-steps)
+- [06. Detecting Undervalued Homes](#06-detecting-undervalued-homes)
+- [07. Growth & Next Steps](#07-growth--next-steps)
 
 ---
 
@@ -54,6 +55,10 @@ I built a model that predicts a London property's **fair sale price** from its s
 **Actions**
 
 I trained two regression models on ~6,300 London sales from 2024 to predict total sale price from three features — floor area, property type, and location (postcode area). I compared a **Linear Regression** and a **Random Forest**, then built a residual-based detector on top to flag and name the most undervalued homes.
+
+**Applications**
+
+This is essentially a buy-side screening tool for anyone who works through property lists. A property investor or buy-to-let landlord could run each new batch of listings through the model and only spend viewing time on homes priced well below their predicted value, while an estate agency could use the same logic in reverse to spot under-priced instructions before they go live. Property portals and mortgage lenders already run on this kind of fair-price model — the automated price estimates on listing sites and the sanity checks behind a valuation are close cousins of what's built here, with an investigation shortlist bolted on top.
 
 **Growth & Next Steps**
 
@@ -76,11 +81,21 @@ The 500-tree forest **only slightly increased** the model's predictability compa
 
 The two models also **agree on the output that matters**: run the undervaluation detector on each and they independently flag almost the same set — 41 homes (linear) and 42 homes (forest) sold 50%+ below prediction, out of 1,253 test properties. When two different models point at the same ~40 houses, the shortlist is worth trusting a little more.
 
-I take the **Random Forest** forward for the detector — it's marginally ahead on this split and robust to any non-linear structure — though the linear model would serve nearly as well.
+---
+
+## 02. Model Overview
+
+This project solves the same task two different ways, which makes it a natural place to see what each model actually is.
+
+**Linear Regression** is the simplest model in the book, and that's its strength. It assumes each feature pushes the price up or down by a fixed amount — every extra square metre adds roughly the same number of pounds — and fits the straight line through the training data that produces the smallest overall error. The result is fully transparent: you can read the coefficients directly and say exactly why the model priced a home the way it did. The trade-off is rigidity — if the true relationship curves, or features interact, a straight line can't bend to follow it.
+
+**Random Forest** attacks the problem with hundreds of decision trees instead. Each tree learns a sequence of yes/no splits ("floor area above 90 sqm?", "postcode area pricier than average?") on a random sample of the data and a random subset of the features, and the forest's prediction is the average of all 500 trees' answers. The randomness is deliberate: it makes each tree wrong in a slightly different way, and averaging washes those individual errors out. Forests capture curved relationships and feature interactions natively and are hard to throw off with odd values — the price you pay is losing the line-by-line interpretability of the linear model.
+
+Here the forest's extra flexibility bought almost nothing (~0.76 vs ~0.75 R²) — a useful finding in itself, because it says these three features relate to price in a mostly linear way.
 
 ---
 
-## 02. Data Overview
+## 03. Data Overview
 
 I'm predicting the continuous `history_price` — the total price a London home actually sold for in 2024 — from the Kaggle London house-price dataset. The raw file was filtered to 2024 sales only and de-duplicated, `Price_per_SqM` was derived purely as an outlier-removal tool, and `fullAddress` was set aside before modelling so it could label the final shortlist without ever becoming a feature. After this pre-processing, the modelling dataset contains the following fields:
 
@@ -95,7 +110,7 @@ I'm predicting the continuous `history_price` — the total price a London home 
 
 ---
 
-## 03. Linear Regression
+## 04. Linear Regression
 
 ### Data Import {#lin-data-import}
 
@@ -167,8 +182,6 @@ x_train[categorical_vars] = target_encoder.fit_transform(x_train[categorical_var
 x_test[categorical_vars]  = target_encoder.transform(x_test[categorical_vars])
 ```
 
-> **Gotcha:** plain `TargetEncoder()` mis-reads an integer price column as *classes* and errors out. You must pass `target_type="continuous"` for a regression target.
-
 ### Feature Selection {#lin-feature-selection}
 
 `RFECV` uses cross-validation to keep only the features that pull their weight. It consistently keeps **`outcode` and `floorAreaSqM`** and drops `propertyType` — location and size are what matter.
@@ -206,7 +219,7 @@ An **R² of ~0.75** from a straight line is a strong baseline: with just locatio
 
 ---
 
-## 04. Random Forest
+## 05. Random Forest
 
 The forest uses the **same** prepared data as above, so the preparation steps are identical — repeated here for completeness, then the model itself differs.
 
@@ -305,7 +318,7 @@ Both tell the same story: **floor area and location do the heavy lifting**, with
 
 ---
 
-## 05. Detecting Undervalued Homes
+## 06. Detecting Undervalued Homes
 
 A price predictor on its own is only mildly interesting. The actual product is what you do with its **residuals** — the gap between what a home *should* have sold for and what it *did*.
 
@@ -332,7 +345,7 @@ Using `.loc[x_test.index]` (label-based) rather than `.iloc` is the detail that 
 
 ---
 
-## 06. Growth & Next Steps
+## 07. Growth & Next Steps
 
 A few concrete improvements would take this from a working prototype to something sturdier:
 

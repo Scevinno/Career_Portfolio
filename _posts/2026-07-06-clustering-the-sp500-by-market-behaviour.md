@@ -20,15 +20,16 @@ Every S&P 500 company carries a sector label — Utilities, Information Technolo
 
 - [00. Project Overview](#00-project-overview)
 - [01. Results](#01-results)
-- [02. Data Overview](#02-data-overview)
-- [03. Data Preparation](#03-data-preparation)
-- [04. K-Means](#04-k-means)
+- [02. Model Overview](#02-model-overview)
+- [03. Data Overview](#03-data-overview)
+- [04. Data Preparation](#04-data-preparation)
+- [05. K-Means](#05-k-means)
   - [Feature Scaling](#kmeans-scaling)
   - [Choosing How Many Clusters](#kmeans-k)
   - [Model Training](#kmeans-training)
   - [Profiling the Clusters](#kmeans-profiling)
-- [05. Do Stocks Follow Their Sector Labels?](#05-do-stocks-follow-their-sector-labels)
-- [06. Growth & Next Steps](#06-growth--next-steps)
+- [06. Do Stocks Follow Their Sector Labels?](#06-do-stocks-follow-their-sector-labels)
+- [07. Growth & Next Steps](#07-growth--next-steps)
 
 ---
 
@@ -41,6 +42,10 @@ Sector labels group companies by what they *sell*. This project is an exploratio
 **Actions**
 
 There was no ready-made table for this, so I built one: for every current S&P 500 constituent I assembled ten 2025-anchored metrics — price behaviour computed from a full year of daily prices, fundamentals from the four quarterly statements ending within 2025 — into one row per company. On that table I ran an unsupervised **K-means** pipeline — min-max scaling, WCSS search for the number of clusters, a reproducible seed — then profiled each cluster in real units and mapped its sector make-up to see what patterns had emerged.
+
+**Applications**
+
+Grouping stocks by behaviour rather than label is a working tool on any equity desk or wealth platform. A portfolio manager can use the clusters as a concentration check — five holdings from five different sectors that all sit in the momentum cluster are one behavioural bet, not five — and a research team can flag companies drifting away from their sector's typical behaviour as candidates for a closer look. The same pipeline fits fund research and robo-advisory workflows too, where style buckets like "defensive income" or "steady compounders" are exactly the building blocks model portfolios are assembled from.
 
 **Growth & Next Steps**
 
@@ -68,7 +73,13 @@ The model finds **five behavioural groups** — three findings stand out:
 
 ---
 
-## 02. Data Overview
+## 02. Model Overview
+
+**K-means** is an unsupervised algorithm: it never sees an answer key, only the ten metrics, and its job is to find k groups whose members are more similar to each other than to everything else. It works geometrically — each company becomes a point in ten-dimensional space, the algorithm drops k centre points among them, assigns every company to its nearest centre, moves each centre to the average position of the companies assigned to it, and repeats until nothing moves. "Nearest" is literal straight-line distance, which is why feature scaling is non-negotiable here: unscaled, market cap measured in billions would out-shout every percentage metric in the room. The algorithm also has to be told how many groups to look for — it will happily carve any dataset into whatever k you ask of it — so the WCSS elbow search in the K-Means section is how I let the data suggest a sensible number rather than inventing one. Its blind spots are the flip side of its simplicity: it prefers roundish, similarly-sized groups and gets pulled around by extreme values — both of which show up honestly in this dataset, most visibly in the nine-company mega-cap cluster.
+
+---
+
+## 03. Data Overview
 
 Price metrics come from 2025's ~250 trading days (with the last 2024 close as baseline); fundamentals are trailing-twelve-month figures summed from the four quarterly statements ending within 2025, falling back to the nearest full fiscal year for off-cycle reporters. Four constituents without full 2025 history (2026 additions and spin-offs) were dropped, leaving **499 companies**.
 
@@ -91,7 +102,7 @@ One deliberate choice: **missing values stay missing**. A company with negative 
 
 ---
 
-## 03. Data Preparation
+## 04. Data Preparation
 
 K-means has no concept of a label, an identifier, or a text column — it just measures distances between rows. So preparation means two things here: deal with the gaps, and remove everything that isn't a behavioural measurement.
 
@@ -115,7 +126,7 @@ The **sector column is deliberately held out**. The whole point is to see what g
 
 ---
 
-## 04. K-Means
+## 05. K-Means
 
 ### Feature Scaling {#kmeans-scaling}
 
@@ -177,7 +188,7 @@ Reading the profiles is where the model earns its keep. A 3.6% average yield wit
 
 ---
 
-## 05. Do Stocks Follow Their Sector Labels?
+## 06. Do Stocks Follow Their Sector Labels?
 
 Now the held-out sector column comes back. Cross-tabulating sector against cluster — normalised within each sector — shows exactly how much of each sector shares one behaviour:
 
@@ -208,7 +219,7 @@ For a portfolio builder the practical takeaway is direct: holding five different
 
 ---
 
-## 06. Growth & Next Steps
+## 07. Growth & Next Steps
 
 Concrete improvements queued for the next iteration:
 

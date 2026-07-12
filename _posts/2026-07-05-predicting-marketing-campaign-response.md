@@ -22,9 +22,10 @@ A grocery retailer mailed its customers an invitation to join a **delivery club*
 
 - [00. Project Overview](#00-project-overview)
 - [01. Results](#01-results)
-- [02. Data Overview](#02-data-overview)
-- [03. Data Preparation](#03-data-preparation)
-- [04. Logistic Regression](#04-logistic-regression)
+- [02. Model Overview](#02-model-overview)
+- [03. Data Overview](#03-data-overview)
+- [04. Data Preparation](#04-data-preparation)
+- [05. Logistic Regression](#05-logistic-regression)
   - [Dealing with Outliers](#log-outliers)
   - [Splitting the Data](#log-split)
   - [One-Hot Encoding](#log-encoding)
@@ -32,13 +33,13 @@ A grocery retailer mailed its customers an invitation to join a **delivery club*
   - [Model Training](#log-training)
   - [Model Assessment](#log-assessment)
   - [Finding the Optimal Threshold](#log-threshold)
-- [05. Random Forest](#05-random-forest)
+- [06. Random Forest](#06-random-forest)
   - [Splitting the Data](#rf-split)
   - [One-Hot Encoding](#rf-encoding)
   - [Model Training](#rf-training)
   - [Model Assessment](#rf-assessment)
   - [Feature Importance](#rf-importance)
-- [06. K-Nearest Neighbours](#06-k-nearest-neighbours)
+- [07. K-Nearest Neighbours](#07-k-nearest-neighbours)
   - [Dealing with Outliers](#knn-outliers)
   - [Splitting the Data](#knn-split)
   - [One-Hot Encoding](#knn-encoding)
@@ -47,7 +48,7 @@ A grocery retailer mailed its customers an invitation to join a **delivery club*
   - [Model Training](#knn-training)
   - [Model Assessment](#knn-assessment)
   - [Finding the Optimal K](#knn-optimal-k)
-- [07. Growth & Next Steps](#07-growth--next-steps)
+- [08. Growth & Next Steps](#08-growth--next-steps)
 
 ---
 
@@ -60,6 +61,10 @@ Mail campaigns cost money per letter, and the retailer's delivery club campaign 
 **Actions**
 
 I framed it as a supervised **classification** task — predict the binary `signup_flag` from eight customer attributes covering shopping behaviour, distance from store, credit score and gender. I built **three** models on the same campaign data so the comparison would be fair: a **Logistic Regression**, a **Random Forest**, and a **K-Nearest Neighbours** classifier. Because signups are the minority class, every model is judged primarily on **F1-score** rather than accuracy.
+
+**Applications**
+
+This is the standard workflow behind targeted marketing in retail: score first, then spend. A CRM or campaign team would run the model over the whole customer base before each mailing, rank customers by predicted probability of joining, and post letters only as deep into that list as the budget allows — the same idea carries to email, coupon and loyalty-programme pushes. Any retailer selling a subscription-style add-on (delivery passes, loyalty clubs, premium tiers) can reuse the pattern directly: one past campaign becomes the training data that makes every future campaign cheaper per conversion.
 
 **Growth & Next Steps**
 
@@ -83,7 +88,19 @@ The other two are instructive rather than losers. **KNN** posts a *perfect preci
 
 ---
 
-## 02. Data Overview
+## 02. Model Overview
+
+Three classifiers, three genuinely different ways of drawing the line between "will join" and "won't".
+
+**Logistic Regression** is the classification cousin of a straight-line model. It combines the features into a single weighted score and squashes it into a probability between 0 and 1 — a customer far from the store with a busy shopping history might come out at 0.82. Turning that probability into a yes/no decision means choosing a cut-off, and that cut-off is a business dial rather than a statistical default — which is exactly what the threshold-tuning step in the logistic section exploits. It's fast, stable on small datasets, and its weights read like an explanation of what drives signups.
+
+**Random Forest** builds hundreds of decision trees — each one a sequence of yes/no splits learned on a random slice of the customers and a random subset of the features — and lets them vote. A single tree tends to memorise noise; a large, deliberately varied crowd of trees averages the noise away and keeps the signal. Forests also pick up interactions between features on their own (distance mattering more for infrequent shoppers, say) and report which features drove their decisions — that's where the distance-from-store finding comes from.
+
+**K-Nearest Neighbours** has no training phase and no equation at all. To classify a customer, it finds the k most similar customers in the training data — similarity measured as plain distance across the scaled features — and takes a vote among them: if four of the five nearest look-alikes joined, the customer is predicted to join. That simplicity makes it a genuinely independent sanity check on the other two, though it leans entirely on feature scaling, because any feature measured on a large scale would otherwise dominate the similarity maths.
+
+---
+
+## 03. Data Overview
 
 I'm predicting the binary `signup_flag` — whether a customer joined the delivery club after the mailer — from the retailer's customer database, with shopping behaviour aggregated over the three months before the campaign. The `customer_id` is dropped before modelling, and the classes sit at roughly 31% signed up vs 69% did not, which is what pushes F1 ahead of accuracy as the metric of record. After cleaning, the modelling dataset contains the following fields:
 
@@ -102,7 +119,7 @@ I'm predicting the binary `signup_flag` — whether a customer joined the delive
 
 ---
 
-## 03. Data Preparation
+## 04. Data Preparation
 
 Every model starts from the same prepared table. I load the campaign data, drop the identifier, shuffle with a fixed seed, and check the class balance — that ~31/69 split drives every metric decision later. A handful of rows have gaps; with ~850 customers to work with, dropping them outright is cleaner than imputing.
 
@@ -136,7 +153,7 @@ The three model sections below each pick up from this point.
 
 ---
 
-## 04. Logistic Regression
+## 05. Logistic Regression
 
 ### Dealing with Outliers {#log-outliers}
 
@@ -253,7 +270,7 @@ Re-scored at 0.44 the same model catches 3 more signups at no precision cost wor
 
 ---
 
-## 05. Random Forest
+## 06. Random Forest
 
 One deliberate difference from the other two pipelines: **no outlier removal**. Each tree splits on thresholds, so a customer who spends ten times the average just ends up on one side of a split — extreme values can't drag the model around the way they drag a linear boundary.
 
@@ -330,7 +347,7 @@ Both agree: **`distance_from_store` towers over everything else** (~47% of total
 
 ---
 
-## 06. K-Nearest Neighbours
+## 07. K-Nearest Neighbours
 
 KNN classifies a customer by looking at the customers most similar to them — which makes it a genuinely different *kind* of model to the other two, and a useful sanity check on their answers.
 
@@ -445,7 +462,7 @@ optimal_k = k_list[f1_scores.index(max_f1)]  # 5
 
 ---
 
-## 07. Growth & Next Steps
+## 08. Growth & Next Steps
 
 Concrete improvements I'd make before the next campaign:
 
