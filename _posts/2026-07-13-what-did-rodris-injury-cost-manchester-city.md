@@ -8,7 +8,7 @@ stack: "Python · pandas · pycausalimpact"
 metrics:
   - value: "−33%"
     label: "relative effect"
-  - value: "68"
+  - value: "~70"
     label: "matches analysed 2023–25"
   - value: "−0.81"
     label: "points per match"
