@@ -62,20 +62,20 @@ The model predicts that without the injury, City would have averaged **2.49 poin
 |---|---|---|
 | Actual | 1.68 | 52 |
 | Predicted without injury | 2.49 | 77 |
-| 95% interval on the prediction | [1.98, 2.99] | [61, 93] |
+| 95% interval on the prediction | | [61, 93] |
 | **Effect** | **−0.81** | **−25** |
+| 95% interval on the effect | [−1.31, −0.30] | |
 
 **The gap is large and clearly separated from zero.** Even at the cautious end of the interval City lost around 9 points to the period after the injury; at the centre of the estimate it is 25 — roughly the distance between defending the title and finishing outside the top four.
 
 **The defeats tell the same story from another angle.** City lost 3 of the 37 matches in the year before the injury and 9 of the 31 after it, with goals conceded per match rising from 0.9 to 1.2. A defensive midfielder's absence showing up first in the defensive numbers is the pattern you would expect if the injury were doing the damage.
 
-**The effect is an average-level finding, not a match-level one.** Points in football arrive as 0, 1 or 3 and single matches are dominated by noise — the model makes no claim about which specific fixtures were dropped, only that the season ran persistently below its expected level.
 
 ---
 
 ## 02. Model Overview
 
-**CausalImpact** answers a question an A/B test cannot: what would have happened without the event, when there is only one Manchester City and the season cannot be re-run. It fits a Bayesian structural time-series model to the pre-injury period, learning City's underlying level of performance and how it relates to a control series the injury does not affect. From the injury onward, the model projects that relationship forward to produce a counterfactual — the most likely path of the season had nothing changed — with an uncertainty band around it. The measured impact is simply the observed season minus the counterfactual, and because the model carries its uncertainty through, the result arrives with a credible interval rather than a bare number.
+**CausalImpact** answers a question of what would have happened without the event, when there is only one Manchester City and the season cannot be re-run. It fits a Bayesian structural time-series model to the pre-injury period, learning City's underlying level of performance and how it relates to a control series the injury does not affect. From the injury onward, the model projects that relationship forward to produce a counterfactual — the most likely path of the season had nothing changed — with an uncertainty band around it. The measured impact is simply the observed season minus the counterfactual, and because the model carries its uncertainty through, the result arrives with a credible interval rather than a bare number.
 
 ---
 
@@ -85,14 +85,18 @@ One row per Manchester City league match, spanning a year each side of the injur
 
 | Variable Name | Variable Type | Description |
 |---|---|---|
-| date / opponent / venue | Identifier | When, against whom, home or away |
-| goals_for / goals_against | Outcome | Full-time score from City's perspective |
-| result / points | Outcome | W/D/L and its 3/1/0 encoding — points is the modelled variable |
+| date | Identifier | Match date |
+| opponent | Identifier | Who City played |
+| venue | Identifier | Home or away |
+| goals_for | Outcome | Goals City scored (full-time) |
+| goals_against | Outcome | Goals City conceded (full-time) |
+| result | Outcome | Win, draw or loss from City's perspective |
+| points | Outcome | The 3/1/0 encoding of the result — the modelled variable |
 | rodri_played | Flag | Whether Rodri featured, verified match-by-match against his season logs |
 | period | Window | pre or post |
 | top6_avg_points | Control | Average points per match of six fixed clubs over the days since City's previous match |
 
-Two details matter in the control column. The six clubs are **fixed** — Arsenal, Liverpool, Chelsea, Manchester United, Tottenham, Newcastle — regardless of league position, and their matches *against City* are excluded, because results in those fixtures are themselves affected by the injury. And the flag exposed an honest wrinkle in the pre-period: Rodri missed 7 of the 37 matches before the injury (suspensions, a rest, and a slow post-Euro start), so the "with Rodri" baseline is really a 30-of-37 baseline.
+Two details matter in the control column. The six clubs are **fixed** — Arsenal, Liverpool, Chelsea, Manchester United, Tottenham, Newcastle — regardless of league position, and their matches *against City* are excluded, because results in those fixtures are themselves affected by the injury.
 
 ---
 
