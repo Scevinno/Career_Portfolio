@@ -29,15 +29,10 @@
 
   <rect width="800" height="600" fill="url(#bg)"/>
 
-  <!-- faint grid -->
-  <g stroke="#3E4250" stroke-width="1" opacity="0.26">
-    <line x1="0" y1="130" x2="800" y2="130"/>
-    <line x1="0" y1="260" x2="800" y2="260"/>
-    <line x1="0" y1="390" x2="800" y2="390"/>
-    <line x1="160" y1="0" x2="160" y2="600"/>
-    <line x1="320" y1="0" x2="320" y2="600"/>
-    <line x1="480" y1="0" x2="480" y2="600"/>
-    <line x1="640" y1="0" x2="640" y2="600"/>
+  <!-- faint grid: shared backdrop style -->
+  <g stroke="#eef2f7" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 80H800M0 160H800M0 240H800M0 320H800M0 400H800M0 480H800"/>
+    <path d="M80 0V600M160 0V600M240 0V600M320 0V600M400 0V600M480 0V600M560 0V600M640 0V600M720 0V600"/>
   </g>
 
   <!-- atmosphere -->
@@ -53,12 +48,6 @@
     <rect x="-105" y="-52" width="210" height="106" rx="10" fill="url(#env)"/>
     <polygon points="-105,-52 0,30 105,-52" fill="#0b2f33" opacity="0.28"/>
     <polygon points="-105,-52 0,30 105,-52" fill="none" stroke="#0f1216" stroke-width="4" stroke-linejoin="round" opacity="0.5"/>
-    <!-- burst lines -->
-    <g stroke="#1ABC9C" stroke-width="3.5" stroke-linecap="round" opacity="0.8">
-      <line x1="-128" y1="-70" x2="-148" y2="-84"/>
-      <line x1="-118" y1="-16" x2="-142" y2="-12"/>
-      <line x1="124" y1="-72" x2="146" y2="-86"/>
-    </g>
   </g>
 
   <!-- flight path: the model's decision curve -->
@@ -69,32 +58,12 @@
   <use href="#mail" transform="translate(392,232) rotate(-13)"/>
   <use href="#mail" transform="translate(496,186) rotate(-4) scale(1.1)"/>
 
-  <!-- responders ride the path home -->
-  <g fill="#1ABC9C">
-    <circle cx="350" cy="264" r="8"/>
-    <circle cx="448" cy="204" r="8"/>
-    <circle cx="546" cy="172" r="8"/>
-  </g>
-  <!-- non-responders drop out of the flight -->
-  <g fill="none" stroke="#8b95a3" stroke-width="3">
-    <circle cx="360" cy="356" r="8" opacity="0.9"/>
-    <circle cx="428" cy="416" r="8" opacity="0.7"/>
-    <circle cx="490" cy="470" r="8" opacity="0.5"/>
-  </g>
-
   <!-- the target: hero of the piece -->
   <g transform="translate(636,208)">
     <circle r="118" fill="#101318" stroke="#ffffff" stroke-width="7"/>
     <circle r="86" fill="none" stroke="url(#gb)" stroke-width="6"/>
     <circle r="54" fill="none" stroke="#ffffff" stroke-width="4.5" opacity="0.85"/>
     <circle r="24" fill="#1ABC9C"/>
-    <!-- impact burst -->
-    <g stroke="#25dcb8" stroke-width="3.5" stroke-linecap="round" opacity="0.9">
-      <line x1="-44" y1="-38" x2="-60" y2="-52"/>
-      <line x1="44" y1="-38" x2="60" y2="-52"/>
-      <line x1="-46" y1="34" x2="-62" y2="46"/>
-      <line x1="48" y1="30" x2="64" y2="42"/>
-    </g>
   </g>
 
 </svg>
