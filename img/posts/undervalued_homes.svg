@@ -13,8 +13,9 @@
       <stop offset="1" stop-color="#148f9e"/>
     </linearGradient>
     <linearGradient id="skylineFade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1a2030" stop-opacity="0.85"/>
-      <stop offset="1" stop-color="#1a2030" stop-opacity="0"/>
+      <stop offset="0" stop-color="#3a4763" stop-opacity="0.9"/>
+      <stop offset="0.25" stop-color="#3a4763" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#3a4763" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="glowT" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#17A589" stop-opacity="0.30"/>
@@ -39,8 +40,7 @@
   <ellipse cx="640" cy="140" rx="280" ry="200" fill="url(#glowB)"/>
 
   <!-- distant London skyline -->
-  <g fill="#1a2030" opacity="0.85">
-    <rect x="0" y="352" width="800" height="60"/>
+  <g fill="#3a4763" opacity="0.9">
     <rect x="34" y="308" width="20" height="48"/>
     <polygon points="34,308 44,284 54,308"/>
     <rect x="96" y="330" width="40" height="26"/>
@@ -52,8 +52,8 @@
     <rect x="700" y="332" width="44" height="24"/>
     <rect x="756" y="316" width="24" height="40"/>
   </g>
-  <!-- skyline shadow bleeds downward and fades back into the background -->
-  <rect x="0" y="412" width="800" height="188" fill="url(#skylineFade)"/>
+  <!-- skyline base band bleeds downward and fades back into the background -->
+  <rect x="0" y="352" width="800" height="248" fill="url(#skylineFade)"/>
 
   <!-- residuals: each sale hangs off the fair-price line -->
   <g stroke="#e7e7e7" stroke-width="2" stroke-dasharray="4 5" opacity="0.45">
