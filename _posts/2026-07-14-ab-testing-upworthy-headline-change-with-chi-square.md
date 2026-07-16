@@ -50,7 +50,7 @@ This is the everyday statistics of publishing. Newsrooms and media companies tes
 
 **Growth & Next Steps**
 
-The archive holds 61 clean head-to-head headline tests, and the same few lines of code run on all of them would show how often wording genuinely moves readers. Beyond that: the question the test itself can't answer — *why* Women out-clicked Mothers, what the two words signal to a reader — and reporting the size of the effect with a confidence interval rather than just the yes/no verdict.
+The archive holds 61 clean head-to-head headline tests, and the same few lines of code run on all of them would show how often wording genuinely moves readers. Beyond that: the question the test itself can't answer — *why* Women out-clicked Mothers, what the two words signal to a reader — and reporting the size of the effect with a confidence interval.
 
 ---
 
@@ -66,15 +66,15 @@ The test returns a chi-square statistic of **5.17** against a critical value of 
 
 **One word moved readers.** The Women version was clicked at 2.41% against 1.98% for Mothers — a gap of about a fifth in relative terms, from changing a single word in an otherwise identical sentence.
 
-**The gap is unlikely to be luck.** A p-value of 0.023 says that if the word truly made no difference, a gap this large would show up in fewer than one in forty runs of the experiment. That is rarer than the 5% bar this project set in advance, so the difference is treated as real.
+**The gap is unlikely to be luck.** A p-value of 0.023 says that if the word truly made no difference, a gap this large would show up in fewer than one in forty runs of the experiment. That is rarer than the 5% treshold set in advance, so the difference is treated as real.
 
-**The margin is small but it was free.** Across the 24,790 readers in the test, the better word was worth roughly 50 extra clicks — nothing dramatic, but the cost of finding it was zero, and headline tests like this run on every story a site publishes.
+**The margin is small but it was free.** Across the 24,790 readers in the test, the better word was worth roughly 50 extra clicks — nothing dramatic, but the cost of finding it was zero.
 
 ---
 
 ## 02. Model Overview
 
-The **chi-square test of independence** answers one question about a table of counts: could the pattern have happened by chance? It starts from the null hypothesis that the two headlines perform identically, and works out what the table *should* look like in that world — both versions sharing one overall click rate, so each version's expected clicks are just that shared rate applied to its readers. It then measures how far the observed counts sit from those expected counts, squares the deviations so over- and under-shoots both count, and adds them into a single statistic. A small statistic means the table looks like chance; a large one means it doesn't. The p-value translates the statistic into a probability — how often chance alone would produce a table at least this uneven — and if that probability falls below the significance level chosen before the test (5% here), the null hypothesis is rejected. Nothing about the test is specific to headlines: any two groups and any yes/no outcome fit the same two-by-two table.
+The **chi-square test of independence** answers one question about a table of counts: could the pattern have happened by chance? It starts from the null hypothesis that the two headlines perform identically, works out what the table *should* look like if that were the case, and measures how far the observed counts sit from it — summed into a single statistic. The p-value translates that statistic into a probability: how often chance alone would produce a gap at least this big. If that falls below the significance level chosen before the test (5% here), the null hypothesis is rejected and the difference is treated as real. Nothing about the test is specific to headlines: any two groups and any yes/no outcome fit the same two-by-two table.
 
 ---
 
@@ -161,6 +161,5 @@ Concrete improvements queued for the next iteration:
 
 - **Run the whole archive of head-to-heads.** The same two-by-two test in a loop over all 61 two-version experiments would turn one anecdote into a base rate: how often does a headline change actually move readers?
 - **Ask why the word worked.** The test proves Women out-clicked Mothers; it says nothing about why. A behavioural follow-up — what each word signals, which readers felt addressed by it, how each frames the story's subject — is the investigation that would turn a statistical verdict into wording guidance a headline desk could reuse.
-- **Report the size, not just the verdict.** A confidence interval on the difference in click rates would say how big the effect plausibly is, which is the number a headline desk would actually act on.
 
 ---
