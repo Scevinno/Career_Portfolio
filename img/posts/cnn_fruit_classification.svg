@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="A photograph passing through convolution layers into six class scores">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#252a36"/>
+      <stop offset="1" stop-color="#121419"/>
+    </linearGradient>
+    <linearGradient id="fruit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1ec8a5"/>
+      <stop offset="1" stop-color="#148f9e"/>
+    </linearGradient>
+    <linearGradient id="winner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#148f9e"/>
+      <stop offset="1" stop-color="#25dcb8"/>
+    </linearGradient>
+    <radialGradient id="glowT" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#17A589" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#17A589" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2E86C1" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2E86C1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- faint grid: shared backdrop style -->
+  <g stroke="#eef2f7" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 80H800M0 160H800M0 240H800M0 320H800M0 400H800M0 480H800"/>
+    <path d="M80 0V600M160 0V600M240 0V600M320 0V600M400 0V600M480 0V600M560 0V600M640 0V600M720 0V600"/>
+  </g>
+
+  <!-- atmosphere -->
+  <ellipse cx="180" cy="300" rx="270" ry="250" fill="url(#glowT)"/>
+  <ellipse cx="690" cy="300" rx="240" ry="215" fill="url(#glowB)"/>
+
+  <!-- the photograph -->
+  <g>
+    <rect x="44" y="170" width="260" height="260" rx="16" fill="#232a3a"/>
+    <circle cx="174" cy="300" r="78" fill="url(#fruit)"/>
+    <rect x="44" y="170" width="260" height="260" rx="16" fill="none" stroke="#3a4354" stroke-width="2"/>
+  </g>
+
+  <!-- the 3x3 kernel, sliding across the photo -->
+  <g transform="translate(198,210)">
+    <rect x="0" y="0" width="84" height="84" rx="5" fill="#25dcb8" fill-opacity="0.10" stroke="#25dcb8" stroke-width="3"/>
+    <g stroke="#25dcb8" stroke-opacity="0.45" stroke-width="1.5">
+      <path d="M28 0V84M56 0V84M0 28H84M0 56H84"/>
+    </g>
+  </g>
+
+  <!-- flow between stages -->
+  <g stroke="#9aa4b0" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="5 7">
+    <path d="M312 300H326"/>
+    <path d="M452 315H466"/>
+    <path d="M570 315H582"/>
+    <path d="M638 315H660"/>
+  </g>
+
+  <!-- convolution stack: each plane smaller than the last -->
+  <g>
+    <polygon points="332,180 448,206 448,452 332,426" fill="#1b2330" stroke="#1ABC9C" stroke-opacity="0.85" stroke-width="2"/>
+    <g fill="#25dcb8" fill-opacity="0.55">
+      <rect x="352" y="228" width="30" height="22" rx="3"/>
+      <rect x="398" y="256" width="36" height="18" rx="3"/>
+      <rect x="356" y="316" width="22" height="30" rx="3"/>
+      <rect x="400" y="352" width="30" height="20" rx="3"/>
+      <rect x="352" y="384" width="26" height="16" rx="3"/>
+    </g>
+
+    <polygon points="470,202 566,226 566,428 470,404" fill="#1b2330" stroke="#1ABC9C" stroke-opacity="0.6" stroke-width="2"/>
+    <g fill="#25dcb8" fill-opacity="0.4">
+      <rect x="488" y="256" width="26" height="20" rx="3"/>
+      <rect x="524" y="300" width="28" height="22" rx="3"/>
+      <rect x="492" y="348" width="20" height="18" rx="3"/>
+    </g>
+
+    <polygon points="576,224 632,240 632,404 576,388" fill="#1b2330" stroke="#1ABC9C" stroke-opacity="0.4" stroke-width="2"/>
+    <g fill="#25dcb8" fill-opacity="0.3">
+      <rect x="590" y="272" width="22" height="18" rx="3"/>
+      <rect x="594" y="326" width="18" height="16" rx="3"/>
+    </g>
+  </g>
+
+  <!-- six class scores, one of them lit -->
+  <g>
+    <rect x="666" y="200" width="30" height="16" rx="8" fill="#3a4354"/>
+    <rect x="666" y="240" width="20" height="16" rx="8" fill="#3a4354"/>
+    <rect x="666" y="280" width="92" height="16" rx="8" fill="url(#winner)"/>
+    <rect x="666" y="320" width="26" height="16" rx="8" fill="#3a4354"/>
+    <rect x="666" y="360" width="38" height="16" rx="8" fill="#3a4354"/>
+    <rect x="666" y="400" width="22" height="16" rx="8" fill="#3a4354"/>
+  </g>
+</svg>
