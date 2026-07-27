@@ -4,7 +4,7 @@ title: Classifying Fruit Photos with a Convolutional Neural Network
 image: "/img/posts/cnn_fruit_classification.svg"
 tags: [Deep Learning, Computer Vision, Python]
 summary: "A small convolutional network learns six fruits from 360 photographs. Four standard improvements are added one at a time — dropout, augmentation, a pre-trained network and an architecture search — each scored on the same photographs."
-stack: "Python · TensorFlow · Keras · Keras Tuner"
+stack: "Python · TensorFlow · Keras"
 metrics:
   - value: "98%"
     label: "accuracy score"
@@ -66,20 +66,20 @@ Each version was scored on all three sets of photographs. The training column sh
 | Version | Training (360) | Validation (180) | Test (60) | Parameters |
 |---|---|---|---|---|
 | Baseline | 100.0% | 83.9% | 85.0% | 1,058,950 |
-| + Dropout | 99.7% | 87.8% | 81.7% | 1,058,950 |
-| + Augmentation | 96.1% | 97.2% | 91.7% | 1,058,950 |
-| Transfer learning (VGG16) | 99.2% | 97.2% | 95.0% | 15,780,678 |
-| Architecture search | 97.8% | 99.4% | 98.3% | 2,717,542 |
+| Dropout | 99.7% | 87.8% | 81.7% | 1,058,950 |
+| Augmentation | 96.1% | 97.2% | 91.7% | 1,058,950 |
+| Transfer (VGG16) | 99.2% | 97.2% | 95.0% | 15,780,678 |
+| Tuner | 97.8% | 99.4% | 98.3% | 2,717,542 |
 
 ![Accuracy on photos the network trained on versus photos it had never seen]({{ "/img/posts/cnn_fruit_generalisation.png" | relative_url }})
 
-**The baseline scored perfectly on its own photographs and 84% on new ones.** Every one of the 360 training images was classified correctly, which sounds like success and is not — the 16 point drop on unseen photographs is the network recognising pictures rather than recognising fruit.
+**The baseline scored perfectly on its own photographs and 84% on new ones.** Every one of the 360 training images was classified correctly, which sounds like success and is not — a 16 point drop on unseen photographs is overfitting, the network having fitted itself to the 360 specific photographs in front of it rather than to what separates one fruit from another.
 
-**Changing the photographs helped more than changing the network.** Augmentation — randomly rotating, shifting, zooming and flipping each training image — moved validation accuracy from 83.9% to 97.2% without altering a single layer. It also closed the gap between seen and unseen photographs entirely.
+**Changing the photographs helped more than making network independent.** Augmentation — randomly rotating, shifting, zooming and flipping each training image — moved validation accuracy from 83.9% to 97.2% without altering a single layer. It also closed the gap between seen and unseen photographs entirely.
 
-**The 15-million-parameter pre-trained network did not win.** VGG16 brought features learned from millions of images and landed at 95.0% on the test set, ahead of augmentation alone but behind the small network whose architecture was chosen by search, which reached 98.3% with a sixth of the parameters.
+**The 15-million-parameter pre-trained network did not win.** VGG16 brought features learned from millions of images and landed at 95.0% on the test set, ahead of augmentation alone but behind the smaller network the tuner arrived at, which reached 98.3% with a sixth of the parameters.
 
-**Dropout is the one result that will not sit still.** It improved validation accuracy by 3.9 points and made the test set worse by two photographs — which is exactly the size of difference sixty images cannot resolve.
+**Dropout is the one version with no clear verdict.** It improved validation accuracy by 3.9 points but scored two photographs worse on the test set, so the two measurements disagree. With only sixty test photographs, a two-image swing is the same size as ordinary luck, which leaves the question open rather than answered.
 
 ---
 
@@ -344,10 +344,10 @@ There is a second signal worth reading alongside accuracy — how confident each
 | Version | Mean confidence when right | Mean confidence when wrong |
 |---|---|---|
 | Baseline | 0.94 | 0.72 |
-| + Dropout | 0.93 | 0.77 |
-| + Augmentation | 0.96 | 0.52 |
-| Transfer learning (VGG16) | 0.99 | 0.91 |
-| Architecture search | 0.94 | 0.40 |
+| Dropout | 0.93 | 0.77 |
+| Augmentation | 0.96 | 0.52 |
+| Transfer (VGG16) | 0.99 | 0.91 |
+| Tuner | 0.94 | 0.40 |
 
 The tuned network hesitates when it is wrong — 0.40 on its single mistake, against 0.94 when correct — so a confidence threshold would catch it. VGG16 is the opposite: it is 91% sure of the answers it gets wrong, which makes its errors much harder to filter out automatically. For anything that needs to hand uncertain cases to a human, that difference matters as much as the three points of accuracy between them.
 
