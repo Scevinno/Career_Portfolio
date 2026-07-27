@@ -428,7 +428,6 @@ The baseline's nine errors are spread across five of the six fruits — avocado 
 Concrete improvements queued for the next iteration:
 
 - **A bigger and harder test set.** Sixty photographs cannot separate a two-point difference from luck, and the whole comparison above is limited by it. Photographs shot in ordinary kitchen lighting, against cluttered backgrounds, would also test something the current set does not: whether the network has learned the fruit or the photographic conditions.
-- **Fine-tune VGG16 rather than freeze it.** Unfreezing the last convolutional block and training it at a low learning rate would let borrowed features adapt to fruit specifically — the standard next step, and the fairest test of whether transfer learning really was beaten here.
 - **Run the tuner properly.** Three trials chose a good architecture; fifty would say whether it is the right one, and Hyperband would get there for a similar amount of compute.
 - **Look at what the filters learned.** The feature maps of the first convolutional layer can be rendered as images, which turns the explanation in section 02 into something visible rather than described.
 
