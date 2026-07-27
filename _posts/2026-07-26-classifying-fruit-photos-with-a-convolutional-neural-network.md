@@ -411,7 +411,7 @@ test_set_accuracy = predictions_df['correct'].sum() / len(predictions_df)
 confusion_matrix = pd.crosstab(predictions_df['predicted_label'], predictions_df['actual_label'])
 ```
 
-`preprocess_image` has to repeat exactly what the training generator did — resize to 128×128, add a batch dimension because `predict` expects a stack of images rather than one, divide by 255. `make_prediction` returns two things: `argmax` picks the highest of the six scores and turns it back into a word via `labels_list`, and the score itself is kept as the model's confidence in that answer. Keeping the probability rather than only the label is what makes the confidence table further down possible.
+`preprocess_image` has to repeat exactly what the training generator did — resize to 128×128, add a batch dimension because `predict` expects a stack of images rather than one, divide by 255. `make_prediction` returns two things: `argmax` picks the highest of the six scores and turns it back into a word via `labels_list`, and the score itself is kept alongside it as the model's confidence in that answer.
 
 The loop walks the test folders in the same alphabetical order the training generator used, so predictions and labels stay aligned. Everything lands in a dataframe with a `correct` flag, which reduces accuracy to a mean and leaves the individual predictions intact for anything else worth asking.
 
@@ -420,18 +420,6 @@ Overall accuracy says how often a model is wrong. The confusion matrix says what
 ![Test-set confusion matrices for the baseline and the tuned network]({{ "/img/posts/cnn_fruit_confusion.png" | relative_url }})
 
 The baseline's nine errors are spread across five of the six fruits — avocado is the only one it never mislabels. Two bananas are called lemons, and apple, kiwi and orange are confused with one another in both directions. The tuned network has one error left: an apple it calls a kiwi.
-
-There is a second signal worth reading alongside accuracy — how confident each model is when it gets an answer wrong.
-
-| Version | Mean confidence when right | Mean confidence when wrong |
-|---|---|---|
-| Baseline | 0.94 | 0.72 |
-| Dropout | 0.93 | 0.77 |
-| Augmentation | 0.96 | 0.52 |
-| Transfer (VGG16) | 0.99 | 0.91 |
-| Tuner | 0.94 | 0.40 |
-
-The tuned network hesitates when it is wrong — 0.40 on its single mistake, against 0.94 when correct — so a confidence threshold would catch it. VGG16 is the opposite: it is 91% sure of the answers it gets wrong, which makes its errors much harder to filter out automatically. For anything that needs to hand uncertain cases to a human, that difference matters as much as the three points of accuracy between them.
 
 ---
 
