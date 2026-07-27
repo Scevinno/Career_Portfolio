@@ -3,7 +3,7 @@ layout: post
 title: Classifying Fruit Photos with a Convolutional Neural Network
 image: "/img/posts/cnn_fruit_classification.svg"
 tags: [Deep Learning, Computer Vision, Python]
-summary: "A network built from scratch on 360 photos learns six fruits. Four standard improvements are added one at a time — dropout, augmentation, a pre-trained network and an architecture search — each scored on the same photographs."
+summary: "A small convolutional network learns six fruits from 360 photographs. Four standard improvements are added one at a time — dropout, augmentation, a pre-trained network and an architecture search — each scored on the same photographs."
 stack: "Python · TensorFlow · Keras · Keras Tuner"
 metrics:
   - value: "98%"
