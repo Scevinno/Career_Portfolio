@@ -7,14 +7,14 @@ summary: "A network built from scratch on 360 photos learns six fruits. Four sta
 stack: "Python · TensorFlow · Keras · Keras Tuner"
 metrics:
   - value: "98%"
-    label: "accuracy on unseen photos"
+    label: "accuracy score"
   - value: "360"
-    label: "photos to learn from"
+    label: "training photos"
   - value: "+13pp"
     label: "gained over the baseline"
 ---
 
-Give a computer 360 photographs and ask it to tell six fruits apart. Sixty pictures per fruit is not much to go on, and the first network showed it: every photo it trained on classified correctly, and roughly one in six wrong on photos it had never seen. This project starts from that baseline and adds four standard fixes one at a time — dropout, image augmentation, a pre-trained network, and an automated architecture search — measuring each one on the same photographs so the improvements can be read against each other rather than described in the abstract.
+Six fruits, sixty photographs of each, and a network that has to tell them apart. The first one I trained learned its photographs perfectly and then got roughly one in six wrong on photographs it had not seen — it had learned the pictures rather than the fruit. This project starts from that baseline and adds four standard fixes one at a time — dropout, image augmentation, a pre-trained network, and an automated architecture search — measuring each one on the same photographs so the improvements can be read against each other rather than described in the abstract.
 
 ---
 
@@ -43,7 +43,7 @@ Give a computer 360 photographs and ask it to tell six fruits apart. Sixty pictu
 
 **Context**
 
-Image classification is the standard first problem in deep learning, and this version of it is deliberately small: six classes, sixty training photographs each. The techniques applied to it are not small — dropout, augmentation, transfer learning and hyperparameter search are what any image project reaches for. Each version of the network changes exactly one thing, so the question is not whether deep learning works on fruit but which of these techniques earns its place, and by how much.
+Image classification is the standard first problem in deep learning, and this version of it is deliberately small: six classes, sixty training photographs each. Four techniques sit on top of that baseline — dropout, augmentation, transfer learning and an automated architecture search — and each is added on its own and measured before the next one goes in. Every version changes exactly one thing, so every number in the results table can be traced back to a single decision.
 
 **Actions**
 
@@ -51,7 +51,7 @@ Five versions of the same problem, trained in sequence. The first is a plain con
 
 **Applications**
 
-The same setup transfers to any which-one-is-it question asked about a photograph. The nearest version of it is sorting on a production line — grading produce, or separating good units from defective ones — where the classes are still a handful of folders of example images and only the subject changes. What transfers alongside the model is the measurement: the gap between what it scores on images it has seen and images it has not is what points at the next thing to fix.
+The same setup transfers to any which-one-is-it question asked about a photograph. The nearest version of it is sorting on a production line — grading produce, or separating good units from defective ones — where the classes are still a handful of folders of example images and only the subject changes.
 
 **Growth & Next Steps**
 
