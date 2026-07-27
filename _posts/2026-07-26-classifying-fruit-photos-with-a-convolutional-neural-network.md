@@ -3,18 +3,18 @@ layout: post
 title: Classifying Fruit Photos with a Convolutional Neural Network
 image: "/img/posts/cnn_fruit_classification.svg"
 tags: [Deep Learning, Computer Vision, Python]
-summary: "A network built from scratch on 360 photos learns six fruits. Four standard improvements are added one at a time — and the one that helps most is not the one you would expect."
+summary: "A network built from scratch on 360 photos learns six fruits. Four standard improvements are added one at a time — dropout, augmentation, a pre-trained network and an architecture search — each scored on the same photographs."
 stack: "Python · TensorFlow · Keras · Keras Tuner"
 metrics:
   - value: "98%"
     label: "accuracy on unseen photos"
-  - value: "+13pp"
-    label: "gained over the baseline"
   - value: "360"
     label: "photos to learn from"
+  - value: "+13pp"
+    label: "gained over the baseline"
 ---
 
-Give a computer 360 photographs and ask it to tell six fruits apart. That is a small amount of evidence — sixty pictures per fruit — and the first network I built handled it the way a lazy student handles an exam: it memorised every photo it was shown and then got one in six wrong on photos it had never seen. This project starts from that baseline and adds four standard fixes one at a time — dropout, image augmentation, a pre-trained network, and an automated architecture search — measuring each one on the same photographs so the improvements can be read against each other rather than described in the abstract.
+Give a computer 360 photographs and ask it to tell six fruits apart. Sixty pictures per fruit is not much to go on, and the first network showed it: every photo it trained on classified correctly, and roughly one in six wrong on photos it had never seen. This project starts from that baseline and adds four standard fixes one at a time — dropout, image augmentation, a pre-trained network, and an automated architecture search — measuring each one on the same photographs so the improvements can be read against each other rather than described in the abstract.
 
 ---
 
@@ -43,15 +43,15 @@ Give a computer 360 photographs and ask it to tell six fruits apart. That is a s
 
 **Context**
 
-Image classification is the standard first problem in deep learning, and the fruit task is deliberately modest: six classes, small photographs, a laptop with no graphics card. What makes it worth writing up is not the task but the sequence. Each version of the network changes exactly one thing, so the question stops being "does deep learning work" and becomes "which of these techniques actually earns its place, and by how much?"
+Image classification is the standard first problem in deep learning, and this version of it is deliberately small: six classes, sixty training photographs each. The techniques applied to it are not small — dropout, augmentation, transfer learning and hyperparameter search are what any image project reaches for. Each version of the network changes exactly one thing, so the question is not whether deep learning works on fruit but which of these techniques earns its place, and by how much.
 
 **Actions**
 
-I built a convolutional network from scratch and trained it on 360 photographs, then produced four further versions: one adding dropout, one adding image augmentation, one replacing the learned features with a pre-trained VGG16 network, and one letting Keras Tuner choose the architecture. All five saved checkpoints were then loaded back and scored on the same three sets of photographs — the ones they trained on, the ones used to pick the best epoch, and sixty they had never touched.
+Five versions of the same problem, trained in sequence. The first is a plain convolutional network — two convolutional blocks and a single dense layer — which sets the baseline. The next four each change one thing: dropout, image augmentation, a pre-trained VGG16 in place of the learned features, and an architecture chosen by Keras Tuner rather than by hand. All five saved checkpoints were then loaded back and scored on the same three sets of photographs — the ones they trained on, the ones used to pick the best epoch, and sixty they had never touched.
 
 **Applications**
 
-The pattern generalises well beyond fruit. Any yes/no or which-one question about an image — a defect on a production line, a document type in a scanning queue, a species in a camera trap — is the same problem with different folders. The interesting part of this project is the diagnostic habit: measuring the gap between what a model scores on data it has seen and data it has not, and using that gap to choose what to fix next.
+The same setup transfers to any which-one-is-it question asked about a photograph. The nearest version of it is sorting on a production line — grading produce, or separating good units from defective ones — where the classes are still a handful of folders of example images and only the subject changes. What transfers alongside the model is the measurement: the gap between what it scores on images it has seen and images it has not is what points at the next thing to fix.
 
 **Growth & Next Steps**
 
@@ -254,7 +254,7 @@ model = Model(inputs = vgg.inputs, outputs = output)
 
 `include_top = False` discards VGG16's original thousand-way classifier and keeps the feature extractor. Freezing every layer means the borrowed knowledge is used, not overwritten — of 15,780,678 parameters, only 1,065,990 are trainable. The preprocessing also changes: VGG16 expects the exact channel treatment it was trained with, so `preprocess_input` replaces the `1./255` rescale in both the generators and the prediction function.
 
-It reached 97.2% validation and 95.0% test accuracy in **10 epochs** rather than 50 — the borrowed features mean there is far less to learn. It did not, however, beat the small network in the next section, which is the result I found most surprising in the project.
+It reached 97.2% validation and 95.0% test accuracy in **10 epochs** rather than 50 — the borrowed features mean there is far less to learn. It did not, however, beat the much smaller network in the next section.
 
 ### Architecture Search {#imp-tuner}
 

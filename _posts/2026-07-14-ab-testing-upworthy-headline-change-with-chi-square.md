@@ -6,12 +6,13 @@ tags: [A/B Testing, Hypothesis Testing, Python]
 summary: "Upworthy ran the same headline twice — one word different. A chi-square test on ~24,800 randomised readers says the word genuinely changed how many people clicked."
 stack: "Python · pandas · SciPy"
 metrics:
-  - value: "+21%"
-    label: "click uplift"
+  - value: "0.02"
+    label: "p-value"
   - value: "~24,800"
     label: "readers in 2010s"
-  - value: "0.02"
-    label: "p-value of difference"
+  - value: "+21%"
+    label: "click uplift"
+
 ---
 
 In the early 2010s, Upworthy was one of the most-clicked media sites on the internet — and behind the scenes it A/B tested the headline of almost every story it published, showing different versions to randomly split visitors and counting the clicks. Years later, the complete experiment logs were released as an open research archive. This project takes one experiment from it — two headlines identical except for a **single word** — and asks whether that word genuinely changed reader behaviour, using a chi-square test.
