@@ -73,21 +73,21 @@ Each version was scored on all three sets of photographs. The training column sh
 
 ![Accuracy on photos the network trained on versus photos it had never seen]({{ "/img/posts/cnn_fruit_generalisation.png" | relative_url }})
 
-**The baseline scored perfectly on its own photographs and 84% on new ones.** Every one of the 360 training images was classified correctly, which sounds like success and is not — a 16 point drop on unseen photographs is overfitting, the network having fitted itself to the 360 specific photographs in front of it rather than to what separates one fruit from another.
+**The baseline scored perfectly on its own photographs but worse on new ones.** Every one of the 360 training images was classified correctly, which sounds like success but it is not. A 16 point drop on unseen photographs means overfitting - the network memorised the 360 specific photographs in front of it rather than learn what separates one fruit from another.
 
-**Changing the photographs helped more than making network independent.** Augmentation — randomly rotating, shifting, zooming and flipping each training image — moved validation accuracy from 83.9% to 97.2% without altering a single layer. It also closed the gap between seen and unseen photographs entirely.
+**Changing the photographs helped more than making the network independent.** Augmentation — randomly rotating, shifting, zooming and flipping each training image — moved validation accuracy from 83.9% to 97.2% without altering a single layer. It also closed the gap between seen and unseen photographs entirely.
 
 **The 15-million-parameter pre-trained network did not win.** VGG16 brought features learned from millions of images and landed at 95.0% on the test set, ahead of augmentation alone but behind the smaller network the tuner arrived at, which reached 98.3% with a sixth of the parameters.
 
-**Dropout is the one version with no clear verdict.** It improved validation accuracy by 3.9 points but scored two photographs worse on the test set, so the two measurements disagree. With only sixty test photographs, a two-image swing is the same size as ordinary luck, which leaves the question open rather than answered.
+**Dropout is the one version with no clear verdict.** It improved validation accuracy by 3.9 points but scored two photographs worse on the test set, so the two measurements disagree. With only sixty test photographs, a two-image swing imay be due to ordinary luck, which leaves the question of low score open.
 
 ---
 
 ## 02. Model Overview
 
-A photograph, to a computer, is a grid of numbers: a 128×128 colour image is 49,152 values between 0 and 255. The naive approach of wiring every pixel to a decision layer fails, because a pixel's meaning comes from the pixels around it rather than from its position in the grid — a banana in the top-left corner and the same banana in the bottom-right are the same banana, and to a position-by-position model they look unrelated.
+A photograph, to a computer, is a grid of numbers: a 128×128 colour image is 49,152 values between 0 and 255. The approach of wiring every pixel to a decision layer fails, because a pixel's meaning comes from the pixels around it rather than from its position in the grid — a banana in the top-left corner and the same banana in the bottom-right are the same banana, and to a position-by-position model they look unrelated.
 
-A **convolutional neural network** solves this by learning small patterns and sliding them across the whole image. Each filter is a small stencil — three pixels by three — that is compared against every position in turn, producing a map of where that pattern appears. Nobody designs the stencils: they begin as random numbers and training adjusts them until one has become an edge detector, another responds to a particular curve, another to a colour transition. Stacking these layers, with a shrinking step in between, lets later layers combine simple patterns into complicated ones. The final layers flatten the result into a list and turn it into six confidence scores, one per fruit.
+A **convolutional neural network** solves this by learning small patterns and sliding them across the whole image. Each filter is a small stencil — in our case three pixels by three — that is compared against every position in turn, producing a map of where that pattern appears. The stencils begin as random numbers and training adjusts them until one has become an edge detector, another responds to a particular curve, another to a colour transition. Stacking these layers, with a shrinking step in between, lets later layers combine simple patterns into complicated ones. The final layers flatten the result into a list and turn it into six confidence scores, one per fruit.
 
 ---
 
@@ -107,19 +107,40 @@ The six classes are apple, avocado, banana, kiwi, lemon and orange. The three-wa
 
 ## 04. Data Preparation
 
-Preparation is handled by Keras' image generators rather than by hand, and it does three things: resize every photograph to 128×128 so the network's input is a fixed shape, divide every pixel by 255 to bring values into a 0–1 range, and read the images in batches of 32 so memory holds a handful of photographs at a time instead of all 360.
+Preparation is handled by Keras' image generators rather than by hand, and it does three things: resize every photograph to 128×128 so the network's input is a fixed shape, divide every pixel by 255 to normalise values between a 0–1 range, and read the images in batches of 32 so memory holds a handful of photographs at a time instead of all 360.
 
 ```python
+# data flow parameters
+
+training_data_dir = 'data/training'
+validation_data_dir = 'data/validation'
+batch_size = 32
+img_width = 128
+img_height = 128
+num_channels = 3
+num_classes = 6
+
+# image generators
+
 training_generator = ImageDataGenerator(rescale = 1./255)
 validation_generator = ImageDataGenerator(rescale = 1./255)
 
+# image flows
+
 training_set = training_generator.flow_from_directory(directory = training_data_dir,
-                                                      target_size = (img_width, img_height),
+                                                      target_size = (img_width,img_height),
                                                       batch_size = batch_size,
                                                       class_mode = 'categorical')
+
+validation_set = validation_generator.flow_from_directory(directory = validation_data_dir,
+                                                          target_size = (img_width,img_height),
+                                                          batch_size = batch_size,
+                                                          class_mode = 'categorical')
 ```
 
-Rescaling is not cosmetic. The network learns by nudging its internal numbers in small steps, and inputs in the hundreds make those steps overshoot instead of settle — the same reason features get standardised before a regression. The rule that follows from it bites later: whatever preprocessing happens here has to happen identically at prediction time, or the model produces confident nonsense.
+The parameters at the top are referred to by name for the rest of the project: `img_width` and `img_height` fix every photograph at 128×128, `num_channels = 3` is the red, green and blue layers of a colour image, and `num_classes = 6` is the six fruits. `class_mode = 'categorical'` returns each label as six values with a 1 in the correct position rather than as a single number, which is the shape the output layer and the loss function expect.
+
+Rescaling is required as the network learns by nudging its internal numbers in small steps, and inputs in the hundreds make those steps overshoot instead of settle — the same reason we had features normalised before a regression. Further, whatever preprocessing happens here has to happen identically at prediction time, or the model produces confident nonsense.
 
 `flow_from_directory` sorts the class folders alphabetically, so apple becomes 0 and orange becomes 5. Every script then hard-codes `labels_list` in that same alphabetical order to turn a prediction back into a word — which works only because the two orders agree. Rename a folder and the predictions silently become wrong.
 
