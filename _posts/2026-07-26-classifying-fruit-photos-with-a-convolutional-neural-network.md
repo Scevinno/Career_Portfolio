@@ -101,7 +101,7 @@ The dataset is a folder of fruit photographs split three ways, with one subfolde
 | Validation | 30 | 180 | Checked after every epoch to save the best version |
 | Test | 10 | 60 | Never seen during training; the final score |
 
-The six classes are apple, avocado, banana, kiwi, lemon and orange. The three-way split matters more than it first appears: validation guides decisions during training, which quietly contaminates it as a measure of quality, so the test set is held back as the genuinely clean number.
+The six classes are apple, avocado, banana, kiwi, lemon and orange. 
 
 ---
 
