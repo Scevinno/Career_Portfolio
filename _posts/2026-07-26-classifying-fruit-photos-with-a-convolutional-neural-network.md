@@ -341,18 +341,79 @@ Two caveats belong with that number. `max_trials = 3` against a search space of 
 
 ## 07. Comparing Every Version
 
-The five checkpoints were reloaded and scored against the same photographs by a single script, so no version is being judged on a different footing:
+Training a network and scoring it are separate jobs. Each version saved its best checkpoint during training, and the block below is what reloads that checkpoint and puts it in front of the sixty test photographs. The same block runs at the end of every version, so no model is being judged on a different footing — only the checkpoint filename changes, and for VGG16 the `1./255` rescale is swapped for `preprocess_input`.
 
 ```python
-for name, model_filename, mode in models_list:
+# load model
 
-    model = load_model(model_filename)
+model = load_model(model_filename)
 
-    for set_name, source_dir in data_dirs.items():
+# image pre-processing function
 
-        predictions_df = score_directory(model, mode, source_dir)
-        scores[set_name + '_accuracy'] = round(predictions_df['correct'].mean(), 4)
+def preprocess_image(filepath):
+    
+    image = load_img(filepath, target_size = (img_width, img_height))
+    image = img_to_array(image)
+    image = np.expand_dims(image, axis = 0)
+    image = image * (1./255)
+    
+    return image
+
+# image prediction function
+
+def make_prediction(image):
+    
+    class_probs = model.predict(image)
+    predicted_class = np.argmax(class_probs)
+    predicted_label = labels_list[predicted_class]
+    predicted_prob = class_probs[0][predicted_class]
+    
+    return predicted_label, predicted_prob
+
+# loop through test data
+
+source_dir = 'data/test/'
+folder_names = ['apple', 'avocado', 'banana', 'kiwi', 'lemon', 'orange']
+actual_labels = []
+predicted_labels = []
+predicted_probabilities = []
+filenames = []
+
+for folder in folder_names:
+    
+    images = listdir(source_dir + '/' + folder)
+    
+    for image in images:
+        
+        proccessed_image = preprocess_image(source_dir + '/' + folder + '/' + image)
+        predicted_label, predicted_probability = make_prediction(proccessed_image)
+        
+        actual_labels.append(folder)
+        predicted_labels.append(predicted_label)
+        predicted_probabilities.append(predicted_probability)
+        filenames.append(image)
+
+# create dataframe to analyse
+
+predictions_df = pd.DataFrame({"actual_label": actual_labels,
+                              "predicted_label": predicted_labels,
+                              "predicted_probability": predicted_probabilities,
+                              "filename": filenames})
+
+predictions_df['correct'] = np.where(predictions_df['actual_label'] == predictions_df['predicted_label'], 1, 0)
+
+# overall test set accuracy
+
+test_set_accuracy = predictions_df['correct'].sum() / len(predictions_df)
+
+# confusion matrix
+
+confusion_matrix = pd.crosstab(predictions_df['predicted_label'], predictions_df['actual_label'])
 ```
+
+`preprocess_image` has to repeat exactly what the training generator did — resize to 128×128, add a batch dimension because `predict` expects a stack of images rather than one, divide by 255. `make_prediction` returns two things: `argmax` picks the highest of the six scores and turns it back into a word via `labels_list`, and the score itself is kept as the model's confidence in that answer. Keeping the probability rather than only the label is what makes the confidence table further down possible.
+
+The loop walks the test folders in the same alphabetical order the training generator used, so predictions and labels stay aligned. Everything lands in a dataframe with a `correct` flag, which reduces accuracy to a mean and leaves the individual predictions intact for anything else worth asking.
 
 Overall accuracy says how often a model is wrong. The confusion matrix says what it is wrong *about*, which is far more useful:
 
