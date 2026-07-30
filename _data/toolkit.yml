@@ -15,7 +15,7 @@ languages:
     note: Power BI measures
 
 library_mix:
-  measured_lines: 425
+  measured_lines: 468
   source: "source code of the published portfolio projects"
   updated: 2026-07-30
   # Single-accent version (5 Jul). To revert to the teal-shade ramp, restore
@@ -23,13 +23,13 @@ library_mix:
   # in index.html (or git revert commit dc2484c).
   libraries:
     - name: pandas
-      pct: 26
+      pct: 24
       color: "#2dd4bf"
     - name: scikit-learn
-      pct: 19
+      pct: 18
       color: "#2dd4bf"
     - name: TensorFlow
-      pct: 17
+      pct: 18
       color: "#2dd4bf"
     - name: Matplotlib
       pct: 6
@@ -91,3 +91,6 @@ library_mix:
         - "DSI Deep Learning/CNN/103_cnn_fruit_classification_augmentation.py"
         - "DSI Deep Learning/CNN/104_cnn_fruit_classification_transfer_learning.py"
         - "DSI Deep Learning/CNN/105_cnn_fruit_classification_keras_tuner.py"
+    - project: "7. Image search engine"
+      files:
+        - "DSI Deep Learning/Image Search Engine/101_cnn_image_search_engine.py"

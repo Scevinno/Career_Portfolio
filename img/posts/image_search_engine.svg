@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="A shoe used as a search query, matched against the three closest images in a catalogue">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#252a36"/>
+      <stop offset="1" stop-color="#121419"/>
+    </linearGradient>
+    <radialGradient id="glowT" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#17A589" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#17A589" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2E86C1" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2E86C1" stop-opacity="0"/>
+    </radialGradient>
+
+    <g id="s-heel">
+      <path d="M14 68 C 20 58 32 52 46 46 C 57 41 66 33 70 23 C 79 29 84 48 80 64 L 63 64 C 49 68 30 72 14 70 Z"/>
+      <path d="M77 64 C 80 72 82 80 84 88 L 77 88 C 74 79 70 71 65 64 Z"/>
+      <path d="M48 46 C 58 41 67 34 70 25 C 69 39 59 48 50 51 Z" fill="#0d1218" fill-opacity="0.5"/>
+      <path d="M13 69 C 30 73 49 69 63 64 L 65 72 C 49 78 30 82 13 78 Z"/>
+      <path d="M13 76 C 30 80 49 76 64 70 L 65 73 C 49 79 30 83 13 79 Z" fill="#0d1218" fill-opacity="0.45"/>
+    </g>
+
+    <g id="s-boot">
+      <path d="M36 14 L 70 14 L 70 66 C 71 74 72 80 73 85 L 17 85 C 11 85 9 77 13 72 C 18 65 28 61 36 58 Z"/>
+      <path d="M14 76 C 16 74 20 73 24 73 L 71 73 C 71 77 72 81 73 85 L 17 85 C 12 85 10 80 14 76 Z" fill="#0d1218" fill-opacity="0.45"/>
+      <rect x="40" y="26" width="26" height="7" rx="3.5" fill="#0d1218" fill-opacity="0.35"/>
+    </g>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g stroke="#eef2f7" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 80H800M0 160H800M0 240H800M0 320H800M0 400H800M0 480H800"/>
+    <path d="M80 0V600M160 0V600M240 0V600M320 0V600M400 0V600M480 0V600M560 0V600M640 0V600M720 0V600"/>
+  </g>
+
+  <ellipse cx="250" cy="290" rx="300" ry="270" fill="url(#glowT)"/>
+  <ellipse cx="640" cy="300" rx="230" ry="250" fill="url(#glowB)"/>
+
+  <!-- the search image -->
+  <g>
+    <rect x="96" y="148" width="300" height="300" rx="18" fill="#1b2330" stroke="#2a3242" stroke-width="2"/>
+    <rect x="134" y="186" width="224" height="224" rx="6" fill="none" stroke="#25dcb8" stroke-width="3" stroke-opacity="0.9"/>
+    <use href="#s-heel" fill="#25dcb8" transform="translate(120,154) scale(2.6)"/>
+    <g fill="none" stroke="#eef2f7" stroke-width="5" stroke-linecap="round">
+      <circle cx="348" cy="200" r="20"/>
+      <path d="M362 214 L 376 228"/>
+    </g>
+  </g>
+
+  <!-- fan out to the nearest images -->
+  <g fill="none" stroke="#9aa4b0" stroke-width="2" stroke-opacity="0.42" stroke-dasharray="5 7">
+    <path d="M408 298 C 470 298 470 154 508 154"/>
+    <path d="M408 298 C 470 298 470 298 508 298"/>
+    <path d="M408 298 C 470 298 470 442 508 442"/>
+  </g>
+
+  <!-- the three closest, each on its own distance scale -->
+  <g>
+    <rect x="520" y="98" width="112" height="112" rx="12" fill="#1b2330" stroke="#25dcb8" stroke-width="2"/>
+    <use href="#s-heel" fill="#25dcb8" transform="translate(530,101) scale(0.95)"/>
+    <rect x="520" y="222" width="180" height="6" rx="3" fill="#232b39"/>
+    <circle cx="574" cy="225" r="8" fill="#25dcb8"/>
+
+    <rect x="520" y="242" width="112" height="112" rx="12" fill="#1b2330" stroke="#2a3242" stroke-width="1.5"/>
+    <use href="#s-heel" fill="#46536b" transform="translate(530,245) scale(0.95)"/>
+    <rect x="520" y="366" width="180" height="6" rx="3" fill="#232b39"/>
+    <circle cx="619" cy="369" r="8" fill="#5c6b7f"/>
+
+    <rect x="520" y="386" width="112" height="112" rx="12" fill="#1b2330" stroke="#2a3242" stroke-width="1.5"/>
+    <use href="#s-boot" fill="#46536b" transform="translate(541,400) scale(0.85)"/>
+    <rect x="520" y="510" width="180" height="6" rx="3" fill="#232b39"/>
+    <circle cx="664" cy="513" r="8" fill="#5c6b7f"/>
+  </g>
+
+</svg>
