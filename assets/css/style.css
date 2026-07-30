@@ -331,13 +331,15 @@ img { max-width: 100%; display: block; }
 
 .stack-seg { height: 100%; }
 
-/* Each label is set to its segment's width inline, so it sits under the
-   portion of the bar it describes. Segments under ~10% are narrower than
-   their own text; flex min-width:auto floors those at content width, so
-   they run on into the slack left by the empty track rather than clipping.
-   Below 900px there is no slack left and the labels wrap into a legend. */
+/* Each label is set to its segment's width inline and the 3px gap mirrors the
+   bar's, so every label box starts exactly on its segment's left edge.
+   min-width: 0 is what makes that hold: without it flex floors each item at
+   its text width, and a label wider than its own segment shoves every later
+   label to the right (the drift was 0 / 19 / 39 / 58px across the four).
+   Labels narrower than their text now simply overflow to the right instead. */
 .stack-labels {
   display: flex;
+  gap: 3px;
   margin-top: 0.85rem;
 }
 
@@ -345,6 +347,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 0.45rem;
+  min-width: 0; /* hold the assigned width; let text overflow rather than push */
   font-family: var(--mono);
   font-size: 0.78rem;
   color: var(--text-dim);
