@@ -52,7 +52,7 @@ body_class: page-home
         </div>
         <div class="stack-labels">
           {% for lib in site.data.toolkit.library_mix.libraries %}
-          <div class="stack-label" style="width: {{ lib.pct }}%">
+          <div class="stack-label">
             {{ lib.name }}&nbsp;<span class="stack-pct">{{ lib.pct }}%</span>
           </div>
           {% endfor %}

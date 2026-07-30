@@ -15,7 +15,11 @@ import sys
 from collections import Counter
 
 LIB_LABELS = {"pandas": "pandas", "sklearn": "scikit-learn", "numpy": "NumPy",
-              "matplotlib": "Matplotlib", "seaborn": "seaborn"}
+              "matplotlib": "Matplotlib", "seaborn": "seaborn",
+              # Keras and Keras Tuner report as TensorFlow — one library on the bar.
+              "tensorflow": "TensorFlow", "keras": "TensorFlow",
+              "keras_tuner": "TensorFlow",
+              "scipy": "SciPy", "causalimpact": "CausalImpact"}
 
 def measure(paths):
     symbols = {}   # name -> lib key

@@ -331,8 +331,13 @@ img { max-width: 100%; display: block; }
 
 .stack-seg { height: 100%; }
 
+/* Legend, not width-matched labels: segments below ~15% are narrower than
+   their own text, so pinning each label to its segment's width made the
+   labels overflow and drift out of alignment. */
 .stack-labels {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
   margin-top: 0.85rem;
 }
 
@@ -789,8 +794,6 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 900px) {
   .languages { grid-template-columns: 1fr 1fr; }
-  .stack-labels { flex-wrap: wrap; gap: 0.5rem 1.4rem; }
-  .stack-label { width: auto !important; }
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 3rem;
