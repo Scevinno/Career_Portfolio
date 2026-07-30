@@ -331,13 +331,13 @@ img { max-width: 100%; display: block; }
 
 .stack-seg { height: 100%; }
 
-/* Legend, not width-matched labels: segments below ~15% are narrower than
-   their own text, so pinning each label to its segment's width made the
-   labels overflow and drift out of alignment. */
+/* Each label is set to its segment's width inline, so it sits under the
+   portion of the bar it describes. Segments under ~10% are narrower than
+   their own text; flex min-width:auto floors those at content width, so
+   they run on into the slack left by the empty track rather than clipping.
+   Below 900px there is no slack left and the labels wrap into a legend. */
 .stack-labels {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.4rem;
   margin-top: 0.85rem;
 }
 
@@ -794,6 +794,10 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 900px) {
   .languages { grid-template-columns: 1fr 1fr; }
+  /* Too narrow for width-matched labels to stay readable — fall back to a
+     wrapped legend. */
+  .stack-labels { flex-wrap: wrap; gap: 0.5rem 1.4rem; }
+  .stack-label { width: auto !important; }
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 3rem;
