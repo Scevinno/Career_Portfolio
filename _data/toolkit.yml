@@ -15,7 +15,7 @@ languages:
     note: Power BI measures
 
 library_mix:
-  measured_lines: 550
+  measured_lines: 425
   source: "source code of the published portfolio projects"
   updated: 2026-07-30
   # Single-accent version (5 Jul). To revert to the teal-shade ramp, restore
@@ -23,37 +23,45 @@ library_mix:
   # in index.html (or git revert commit dc2484c).
   libraries:
     - name: pandas
-      pct: 32
-      color: "#2dd4bf"
-    - name: scikit-learn
       pct: 26
       color: "#2dd4bf"
+    - name: scikit-learn
+      pct: 19
+      color: "#2dd4bf"
     - name: TensorFlow
-      pct: 9
+      pct: 17
       color: "#2dd4bf"
     - name: Matplotlib
-      pct: 8
+      pct: 6
       color: "#2dd4bf"
-  # The remainder to 100% (core Python, NumPy, SciPy, CausalImpact) is deliberately
-  # left as empty track on the bar — no segment, no label.
+  # The remainder to 100% (core Python, NumPy, SciPy, CausalImpact, pickle) is
+  # deliberately left as empty track on the bar — no segment, no label.
 
   # ---------------------------------------------------------------------------
   # CORPUS - the exact file list these percentages were measured over.
   # Recorded so the figure is reproducible. The 13 Jul / 618-line measurement
   # was not reproducible, because only the result was kept and not the inputs.
-  # Re-run with:  python scripts/measure_libraries.py <every path listed below>
+  # Re-run with:
+  #   python scripts/measure_libraries.py --unique <every path listed below>
   # Paths are relative to
   #   C:\SOREN\Resources\Documents\Coding\Portfolio\Python
   #
   # Run it as ONE invocation over the whole list. The script's import->library
   # symbol map carries across files, so measuring project-by-project and adding
-  # up gives different attribution (~1pp) than measuring the corpus in one go.
+  # up gives different attribution than measuring the corpus in one go.
   #
-  # Counting rule: the CNN project's scripts 102-105 are deliberate near-copies
-  # of 101 with a single change each - the post's whole structure is that ladder.
-  # Counting all five multiplies one architecture by five and lets a single
-  # project supply 59% of the portfolio's lines, so the ladder is counted ONCE.
-  # Apply the same de-duplication to any future project built as a variant series.
+  # Counting rule: --unique counts each DISTINCT executable line once. Every
+  # script is included, but repeated lines stop compounding: the corpus is 1,058
+  # lines of which only 425 are distinct, and the CNN project alone is a ladder
+  # of five near-copies of one architecture (101 with a single change each).
+  # Counted raw, that one project supplies 59% of the portfolio's lines and its
+  # library outranks everything else. De-duplication is a rule rather than a
+  # judgement, so it needs no per-project decision at the next project - it
+  # simply stops any variant series from inflating its library.
+  #
+  # Known trade-off: de-duplication is global, so `import pandas as pd` counts
+  # once across all the files that use it. This rewards distinct code and
+  # slightly under-weights libraries whose footprint is repeated boilerplate.
   corpus:
     - project: "1. Undervalued homes (regression)"
       files:
@@ -76,5 +84,10 @@ library_mix:
       files:
         - "Projects/Project - Upworthy AB Testing/model.py"
     - project: "6. CNN fruit classification"
+      # All five scripts are included; --unique collapses what they share.
       files:
         - "DSI Deep Learning/CNN/101_cnn_fruit_classification_basic.py"
+        - "DSI Deep Learning/CNN/102_cnn_fruit_classification_dropout.py"
+        - "DSI Deep Learning/CNN/103_cnn_fruit_classification_augmentation.py"
+        - "DSI Deep Learning/CNN/104_cnn_fruit_classification_transfer_learning.py"
+        - "DSI Deep Learning/CNN/105_cnn_fruit_classification_keras_tuner.py"
