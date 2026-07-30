@@ -6,12 +6,12 @@ tags: [Deep Learning, Computer Vision, Python]
 summary: "A small convolutional network learns six fruits from 360 photographs. Four standard improvements are added one at a time — dropout, augmentation, a pre-trained network and an architecture search — each scored on the same photographs."
 stack: "Python · TensorFlow · Keras"
 metrics:
-  - value: "98%"
-    label: "accuracy score"
-  - value: "360"
-    label: "training photos"
   - value: "+13pp"
     label: "gained over the baseline"
+  - value: "360"
+    label: "training photos"
+  - value: "98%"
+    label: "accuracy score"
 ---
 
 Six fruits, sixty photographs of each, and a network that has to tell them apart. The first one I trained learned its photographs perfectly and then got roughly one in six wrong on photographs it had not seen — it had learned the pictures rather than the fruit. This project starts from that baseline and adds four standard fixes one at a time — dropout, image augmentation, a pre-trained network, and an automated architecture search — measuring each one on the same photographs so the improvements can be read against each other rather than described in the abstract.
