@@ -2,3 +2,7 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 Gemfile.lock
+
+# Python bytecode
+__pycache__/
+*.pyc
