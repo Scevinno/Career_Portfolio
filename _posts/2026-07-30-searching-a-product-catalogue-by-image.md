@@ -228,7 +228,7 @@ image_distances, image_indices = image_neighbors.kneighbors(search_feature_vecto
 
 `metric = 'cosine'` is the choice that matters most in this block. Cosine distance compares the *direction* of two 512-number vectors and ignores their magnitude, so two photographs of the same shoe under different lighting stay close even when one produces uniformly larger activations than the other. Straight-line distance would treat that brightness difference as a real difference between the products.
 
-`fit` is a misleading name here. `NearestNeighbors` has nothing to learn — the call organises the 300 vectors so that `kneighbors` can search them, and at this size it is effectively storing them. `kneighbors` then returns two aligned arrays: how far away the eight closest images are, and which rows they are.
+`fit` hands `NearestNeighbors` the vectors it will search against. Nothing is estimated here: `metric = 'cosine'` rules out the kd-tree and the ball tree, which each support only a fixed list of distance metrics, so scikit-learn falls back to brute force and `fit` stores the 300 vectors as they are. `kneighbors` then returns two aligned arrays: how far away the eight closest images are, and which rows they are.
 
 ```python
 # get list of filenames for search results
