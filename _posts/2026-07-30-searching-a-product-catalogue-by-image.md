@@ -260,8 +260,6 @@ Concrete improvements queued for the next iteration:
 
 - **Label a sample and get a real number.** Tagging even 50 of the 300 images by shoe type would allow precision at 8 to be measured across many queries. Everything in section 01 is currently judged by eye, and a hundred labelled minutes would replace that with a figure.
 - **Test the white background.** The catalogue is consistent studio product photography, and the second query — shot on a person — already returned longer distances than the first. Querying with phone photographs against cluttered backgrounds would show whether the engine has learned the shoes or the photographic conditions.
-- **Handle a catalogue that grows.** The feature store is rebuilt from scratch every run. Featurising only new images and appending them would make the index maintainable, which is the difference between a demonstration and something that could sit behind a live catalogue.
-- **Replace the brute-force search.** Comparing a query against all 300 vectors is instant. Comparing it against 300,000 is not, and approximate nearest neighbour libraries exist precisely for that point.
-- **Try a newer backbone.** VGG16 is a 2014 architecture. ResNet or EfficientNet features would be a direct swap in this pipeline and would show how much of the result depends on the network rather than the approach.
+- **Try a newer model.** ResNet or EfficientNet features would be a direct swap in this pipeline and would show how much of the result depends on the network rather than the approach.
 
 ---
