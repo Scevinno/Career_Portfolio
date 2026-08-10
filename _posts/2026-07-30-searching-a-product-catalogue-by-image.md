@@ -116,7 +116,7 @@ The catalogue is 300 footwear photographs in a single flat folder, named `footwe
 | Image size fed to the network | 224 × 224 |
 | Numbers stored per image | 512 |
 
-This is a different starting position from a classification project, where the folder an image sits in *is* its label. Here there is nothing to learn from and — more awkwardly — nothing to score against. The engine can be built without labels, but it cannot be graded without them.
+There is nothing here to learn from and — more awkwardly — nothing to score against. The engine can be built without labels, but it cannot be graded without them.
 
 The images are product photography: one item per frame, mostly centred, mostly on a white background. That consistency is doing quiet work in the results, and section 07 has the fix for finding out how much.
 
