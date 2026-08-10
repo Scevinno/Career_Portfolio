@@ -3,7 +3,7 @@ layout: post
 title: Searching a Product Catalogue by Image with a Pre-Trained Network
 image: "/img/posts/image_search_engine.svg"
 tags: [Deep Learning, Computer Vision, Python]
-summary: "Three hundred shoe photographs with no tags, no labels and no training run. A network trained on something else turns each image into 512 numbers, and a search becomes a question about distance."
+summary: "VGG16, with its classification layers removed, describes each of 300 unlabelled shoe photographs as 512 numbers — then a nearest neighbours search returns the eight catalogue images closest to any query photograph by cosine distance."
 stack: "Python · TensorFlow · Keras · scikit-learn"
 metrics:
   - value: "512"
@@ -14,7 +14,7 @@ metrics:
     label: "results per search"
 ---
 
-Product search usually runs on words, which means somebody has to write them — every item tagged as *red*, *heeled*, *patent*, *platform* before anyone can find it. This project skips the words entirely. Hand it a photograph and it returns the eight images in the catalogue that look most like it. Nothing here is trained and nothing is labelled: a network trained for a different job does the looking, and the search itself is a distance calculation.
+Product search usually runs on words. This project searches a catalogue of 300 shoe photographs that have none — no tags, no categories, no labels of any kind. VGG16, a network trained to classify photographs, is loaded with its classification layers removed, so that it describes an image as 512 numbers rather than naming it. Every catalogue image is described once and stored. A search then describes the query photograph the same way and returns the eight stored images sitting closest to it by cosine distance. Nothing is trained here and nothing is labelled.
 
 ---
 
