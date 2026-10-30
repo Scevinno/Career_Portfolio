@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="An answer held in place by tethers to the three knowledge-base cards it was drawn from">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#252a36"/>
+      <stop offset="1" stop-color="#121419"/>
+    </linearGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2E86C1" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#2E86C1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowT" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#25dcb8" stop-opacity="0.30"/>
+      <stop offset="0.65" stop-color="#25dcb8" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#25dcb8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bubble" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1ABC9C"/>
+      <stop offset="1" stop-color="#2E86C1"/>
+    </linearGradient>
+    <linearGradient id="lit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#25dcb8"/>
+      <stop offset="1" stop-color="#17A589"/>
+    </linearGradient>
+
+    <!-- one knowledge-base card: a question bar over answer lines; colour inherited -->
+    <g id="card">
+      <rect x="6" y="6" width="84" height="108" rx="9" fill="#0d1218" fill-opacity="0.55"/>
+      <rect x="0" y="0" width="84" height="108" rx="9"/>
+      <rect x="12" y="14" width="46" height="8" rx="4" fill="#eef2f7" fill-opacity="0.30"/>
+      <rect x="12" y="36" width="60" height="5" rx="2.5" fill="#0d1218" fill-opacity="0.35"/>
+      <rect x="12" y="49" width="54" height="5" rx="2.5" fill="#0d1218" fill-opacity="0.35"/>
+      <rect x="12" y="62" width="60" height="5" rx="2.5" fill="#0d1218" fill-opacity="0.35"/>
+      <rect x="12" y="75" width="38" height="5" rx="2.5" fill="#0d1218" fill-opacity="0.35"/>
+    </g>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g stroke="#eef2f7" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 80H800M0 160H800M0 240H800M0 320H800M0 400H800M0 480H800"/>
+    <path d="M80 0V600M160 0V600M240 0V600M320 0V600M400 0V600M480 0V600M560 0V600M640 0V600M720 0V600"/>
+  </g>
+
+  <ellipse cx="130" cy="40" rx="420" ry="260" fill="url(#glowB)"/>
+  <ellipse cx="400" cy="200" rx="330" ry="230" fill="url(#glowT)"/>
+
+  <!-- tethers: the answer is held by the cards it was retrieved from -->
+  <g fill="none" stroke="#25dcb8" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9">
+    <path d="M200 404 C 208 356 330 350 394 320"/>
+    <path d="M400 404 V 322"/>
+    <path d="M600 404 C 592 356 470 350 406 320"/>
+  </g>
+  <g fill="#25dcb8">
+    <circle cx="200" cy="404" r="5"/>
+    <circle cx="400" cy="404" r="5"/>
+    <circle cx="600" cy="404" r="5"/>
+    <circle cx="400" cy="318" r="6"/>
+  </g>
+
+  <!-- the knowledge base: seven cards, three retrieved -->
+  <g fill="#2b3646">
+    <use href="#card" transform="translate(58,420)"/>
+    <use href="#card" transform="translate(258,420)"/>
+    <use href="#card" transform="translate(458,420)"/>
+    <use href="#card" transform="translate(658,420)"/>
+  </g>
+  <g fill="url(#lit)">
+    <use href="#card" transform="translate(158,404)"/>
+    <use href="#card" transform="translate(358,404)"/>
+    <use href="#card" transform="translate(558,404)"/>
+  </g>
+
+  <!-- the answer -->
+  <g>
+    <path d="M252 80 H 560 A 34 34 0 0 1 594 114 V 252 A 34 34 0 0 1 560 286 H 418 L 400 316 L 382 286 H 252 A 34 34 0 0 1 218 252 V 114 A 34 34 0 0 1 252 80 Z" transform="translate(8,8)" fill="#0d1218" fill-opacity="0.55"/>
+    <path d="M252 80 H 560 A 34 34 0 0 1 594 114 V 252 A 34 34 0 0 1 560 286 H 418 L 400 316 L 382 286 H 252 A 34 34 0 0 1 218 252 V 114 A 34 34 0 0 1 252 80 Z" fill="url(#bubble)"/>
+    <g fill="#eef2f7">
+      <rect x="258" y="122" width="236" height="16" rx="8" fill-opacity="0.92"/>
+      <rect x="258" y="158" width="296" height="16" rx="8" fill-opacity="0.80"/>
+      <rect x="258" y="194" width="262" height="16" rx="8" fill-opacity="0.80"/>
+      <rect x="258" y="230" width="168" height="16" rx="8" fill-opacity="0.80"/>
+    </g>
+  </g>
+</svg>

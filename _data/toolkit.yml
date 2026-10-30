@@ -15,27 +15,32 @@ languages:
     note: Power BI measures
 
 library_mix:
-  measured_lines: 468
+  measured_lines: 577
   source: "source code of the published portfolio projects"
-  updated: 2026-07-30
+  updated: 2026-10-30
   # Single-accent version (5 Jul). To revert to the teal-shade ramp, restore
   # per-library colors (darkest-to-lightest ramp) and re-add the label dots
   # in index.html (or git revert commit dc2484c).
   libraries:
     - name: pandas
-      pct: 24
-      color: "#2dd4bf"
-    - name: scikit-learn
-      pct: 18
+      pct: 19
       color: "#2dd4bf"
     - name: TensorFlow
-      pct: 18
+      pct: 15
+      color: "#2dd4bf"
+    - name: scikit-learn
+      pct: 15
+      color: "#2dd4bf"
+    - name: LangChain
+      pct: 8
       color: "#2dd4bf"
     - name: Matplotlib
-      pct: 6
+      pct: 5
       color: "#2dd4bf"
   # The remainder to 100% (core Python, NumPy, SciPy, CausalImpact, pickle) is
   # deliberately left as empty track on the bar — no segment, no label.
+  # LangChain's packages (langchain_openai, _chroma, _community, _core,
+  # _text_splitters) report as one library, like Keras under TensorFlow.
 
   # ---------------------------------------------------------------------------
   # CORPUS - the exact file list these percentages were measured over.
@@ -44,7 +49,7 @@ library_mix:
   # Re-run with:
   #   python scripts/measure_libraries.py --unique <every path listed below>
   # Paths are relative to
-  #   C:\SOREN\Resources\Documents\Coding\Portfolio\Python
+  #   C:\SOREN\Resources\Documents\Coding\Python
   #
   # Run it as ONE invocation over the whole list. The script's import->library
   # symbol map carries across files, so measuring project-by-project and adding
@@ -94,3 +99,6 @@ library_mix:
     - project: "7. Image search engine"
       files:
         - "DSI Deep Learning/Image Search Engine/101_cnn_image_search_engine.py"
+    - project: "8. RAG help-desk assistant"
+      files:
+        - "../GenAI/RAG/rag_ai_bot_02.py"

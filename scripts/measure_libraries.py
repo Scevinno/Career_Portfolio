@@ -7,8 +7,8 @@ Method:
   e.g. model_data = pd.read_csv(...) makes model_data a pandas object).
 - A line is attributed to the library of the first tracked symbol that makes a call
   or subscript on that line; if none is called, the first tracked symbol referenced.
-- Lines referencing no tracked symbol count as core Python. Import lines count
-  toward the imported library.
+- Lines referencing no tracked symbol count as core Python, and so do lines
+  that are only a string literal. Import lines count toward the imported library.
 
 With --unique, an executable line that has already been counted anywhere in the
 corpus is skipped, so each DISTINCT line counts once. A project built as a
@@ -27,7 +27,11 @@ LIB_LABELS = {"pandas": "pandas", "sklearn": "scikit-learn", "numpy": "NumPy",
               # Keras and Keras Tuner report as TensorFlow — one library on the bar.
               "tensorflow": "TensorFlow", "keras": "TensorFlow",
               "keras_tuner": "TensorFlow",
-              "scipy": "SciPy", "causalimpact": "CausalImpact"}
+              "scipy": "SciPy", "causalimpact": "CausalImpact",
+              # LangChain ships as several packages - one library on the bar.
+              "langchain_openai": "LangChain", "langchain_chroma": "LangChain",
+              "langchain_community": "LangChain", "langchain_core": "LangChain",
+              "langchain_text_splitters": "LangChain"}
 
 def measure(paths, unique=False):
     symbols = {}   # name -> lib key
@@ -62,6 +66,12 @@ def measure(paths, unique=False):
                     name = name.strip().split(" as ")
                     symbols[name[-1].strip()] = lib
                 counts[lib] += 1
+                continue
+
+            # a line that is only a string literal (e.g. one line of a long
+            # prompt) calls nothing, whatever words its text happens to contain
+            if code[0] in "\"'":
+                counts["python"] += 1
                 continue
 
             # find tracked symbols in order of appearance, prefer one being called/subscripted
